@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:svg_path_parser/svg_path_parser.dart';
 import 'package:learn/paths.dart';
+import 'package:touchable/touchable.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,17 +71,22 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    var myCanvas = TouchyCanvas(context, canvas) {
+      
     var paint = Paint()
       ..color = color
       ..strokeWidth = 4.0;
-    canvas.drawPath(path, paint);
+    myCanvas.drawPath(path, 
+    paint,
+    onTapDown: print("test"));
     if (showPath) {
       var border = Paint()
         ..color = Colors.black
         ..strokeWidth = 1.0
         ..style = PaintingStyle.stroke;
       canvas.drawPath(path, border);
-    }
+    };
+    };
   }
 
   @override

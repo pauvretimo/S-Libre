@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:svg_path_parser/svg_path_parser.dart';
 import 'package:learn/paths.dart';
-import 'package:touchable/touchable.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'App salles',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -25,70 +24,45 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool showBorder = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Transform.scale(
         scale: 1,
-        child: GestureDetector(
-          child: Transform.rotate(
-            angle: 0,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 10,
-                height: 10,
-                child: Stack(
-                  children: paths.map((e) {
-                    return CustomPaint(
-                        painter: MyPainter(
-                            parseSvgPath(e[0] as String), e[1] as Color,
-                            showPath: showBorder));
-                  }).toList(),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Stack(
+            children: paths.map((e) {
+              return ClipPath(
+                child: Material(
+                  child: InkWell(
+                    child: null,
+                    onTap: () {
+                      print("test");
+                    },
+                  ),
+                  color: (e[1] as Color),
                 ),
-              ),
-            ),
+                clipper: MyClipper(e[0] as String),
+              );
+            }).toList(),
           ),
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            setState(() {
-              // hide/show border
-              showBorder = !showBorder;
-            });
-          },
         ),
       ),
     );
   }
 }
 
-class MyPainter extends CustomPainter {
-  final Path path;
-  final Color color;
-  final bool showPath;
-  MyPainter(this.path, this.color, {this.showPath = true});
+class MyClipper extends CustomClipper<Path> {
+  final String str;
+  MyClipper(this.str);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    var myCanvas = TouchyCanvas(context, canvas) {
-      
-    var paint = Paint()
-      ..color = color
-      ..strokeWidth = 4.0;
-    myCanvas.drawPath(path, 
-    paint,
-    onTapDown: print("test"));
-    if (showPath) {
-      var border = Paint()
-        ..color = Colors.black
-        ..strokeWidth = 1.0
-        ..style = PaintingStyle.stroke;
-      canvas.drawPath(path, border);
-    };
-    };
+  Path getClip(Size size) {
+    final path = parseSvgPath(str);
+    return path;
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldReclip(CustomClipper oldClipper) => true;
 }

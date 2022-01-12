@@ -27,27 +27,24 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Transform.scale(
-        scale: 1,
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Stack(
-            children: paths.map((e) {
-              return ClipPath(
-                child: Material(
-                  child: InkWell(
-                    child: null,
-                    onTap: () {
-                      print("test");
-                    },
-                  ),
-                  color: (e[1] as Color),
-                ),
-                clipper: MyClipper(e[0] as String),
-              );
-            }).toList(),
-          ),
-        ),
+      body: Stack(
+        alignment: Alignment.topLeft,
+        children: pathsv.map((e) {
+          return ClipPath(
+            // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
+            child: Material(
+              child: InkWell(
+                child: null,
+                onTap: () {
+                  print(e[1]); //mettre la sortie de clique ici
+                },
+              ),
+              color: (e[1]
+                  as Color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
+            ),
+            clipper: MyClipper(e[0] as String),
+          );
+        }).toList(),
       ),
     );
   }
@@ -59,7 +56,13 @@ class MyClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final path = parseSvgPath(str);
+    var xScale = size.width / 1400;
+    var yScale = size.height / 2800;
+    final Matrix4 matrix4 = Matrix4.identity();
+    matrix4.scale(xScale, yScale);
+    final path =
+        parseSvgPath(str).transform(matrix4.storage).shift(Offset(12, 12));
+
     return path;
   }
 

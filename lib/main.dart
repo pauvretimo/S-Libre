@@ -27,9 +27,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
-      if (orientation != Orientation.portrait) {
+      if (orientation == Orientation.portrait) {
+        print('portrait');
         return Center(child: PlanPortrait());
       } else {
+        print('landscape');
         return Center(child: PlanLandscape());
       }
     }));

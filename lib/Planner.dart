@@ -30,7 +30,7 @@ class _PlanPortrait extends State<PlanPortrait> {
                 color: (e
                     .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              clipper: MyClipperLandscape(e.svgpath),
+              clipper: MyClipperPortrait(e.svgpath),
             );
           }).toList(),
         ));
@@ -50,7 +50,7 @@ class _PlanLandscape extends State<PlanLandscape> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: 9 / 16,
+        aspectRatio: 16 / 9,
         child: Stack(
           children: paths.horizontalpaths.map((e) {
             return ClipPath(
@@ -59,13 +59,13 @@ class _PlanLandscape extends State<PlanLandscape> {
                 child: InkWell(
                   child: null,
                   onTap: () {
-                    print(e.color); //mettre la sortie de clique ici
+                    print(e.name); //mettre la sortie de clique ici
                   },
                 ),
                 color: (e
                     .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              clipper: MyClipperPortrait(e.svgpath),
+              clipper: MyClipperLandscape(e.svgpath),
             );
           }).toList(),
         ));

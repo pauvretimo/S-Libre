@@ -27,12 +27,12 @@ class MyClipperLandscape extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    var xScale = size.width / 2500;
-    var yScale = size.height / 4300;
+    var xScale = size.width / 6500;
+    var yScale = size.height / 3600;
     final Matrix4 matrix4 = Matrix4.identity();
     matrix4.scale(xScale, yScale);
     final path =
-        parseSvgPath(str).transform(matrix4.storage).shift(Offset(0, 100));
+        parseSvgPath(str).transform(matrix4.storage).shift(Offset(30, 50));
 
     return path;
   }

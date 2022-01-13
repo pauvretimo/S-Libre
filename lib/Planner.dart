@@ -3,21 +3,19 @@ import 'package:learn/paths.dart';
 import 'package:learn/MyClipper.dart';
 
 class PlanPortrait extends StatefulWidget {
-  const PlanPortrait({Key? key, required this.ratio}) : super(key: key);
-  final List<int> ratio;
+  const PlanPortrait({Key? key}) : super(key: key);
 
   @override
-  State<PlanPortrait> createState() => _PlanPortrait(ratio);
+  State<PlanPortrait> createState() => _PlanPortrait();
 }
 
 class _PlanPortrait extends State<PlanPortrait> {
-  final List<int> ratio;
   @override
-  _PlanPortrait(this.ratio);
+  _PlanPortrait();
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: (ratio[1]) / (ratio[0]),
+        aspectRatio: 9 / 16,
         child: Stack(
           children: paths.verticalpaths.map((e) {
             return ClipPath(
@@ -32,7 +30,7 @@ class _PlanPortrait extends State<PlanPortrait> {
                 color: (e
                     .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              clipper: MyClipper(e.svgpath),
+              clipper: MyClipperLandscape(e.svgpath),
             );
           }).toList(),
         ));
@@ -40,21 +38,19 @@ class _PlanPortrait extends State<PlanPortrait> {
 }
 
 class PlanLandscape extends StatefulWidget {
-  const PlanLandscape({Key? key, required this.ratio}) : super(key: key);
-  final List<int> ratio;
+  const PlanLandscape({Key? key}) : super(key: key);
 
   @override
-  State<PlanLandscape> createState() => _PlanLandscape(ratio);
+  State<PlanLandscape> createState() => _PlanLandscape();
 }
 
 class _PlanLandscape extends State<PlanLandscape> {
-  final List<int> ratio;
   @override
-  _PlanLandscape(this.ratio);
+  _PlanLandscape();
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: (ratio[1]) / (ratio[0]),
+        aspectRatio: 9 / 16,
         child: Stack(
           children: paths.horizontalpaths.map((e) {
             return ClipPath(
@@ -69,7 +65,7 @@ class _PlanLandscape extends State<PlanLandscape> {
                 color: (e
                     .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              clipper: MyClipper(e.svgpath),
+              clipper: MyClipperPortrait(e.svgpath),
             );
           }).toList(),
         ));

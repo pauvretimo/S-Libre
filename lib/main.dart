@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'App salles',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,16 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
-      if (orientation == Orientation.portrait) {
-        return Center(
-            child: Stack(alignment: Alignment.topLeft, children: const [
-          PlanPortrait(ratio: [16, 9])
-        ]));
+      if (orientation != Orientation.portrait) {
+        return Center(child: PlanPortrait());
       } else {
-        return Center(
-            child: Stack(alignment: Alignment.topLeft, children: const [
-          PlanLandscape(ratio: [16, 9])
-        ]));
+        return Center(child: PlanLandscape());
       }
     }));
   }

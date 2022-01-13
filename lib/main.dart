@@ -40,9 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
         future: getCalendar(),
         initialData: [],
         builder: (builder, snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) //While waiting for response return this
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
+          } //While waiting for response return this
+
           return OrientationBuilder(builder: (context, orientation) {
             if (orientation == Orientation.portrait) {
               print('portrait');

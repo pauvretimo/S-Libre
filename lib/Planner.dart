@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/MyClipper.dart';
+import 'package:learn/popup.dart';
 import 'package:learn/requests.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PlanPortrait extends StatefulWidget {
   final List<EventCalendar> events;
@@ -28,33 +28,7 @@ class _PlanPortrait extends State<PlanPortrait> {
                 child: InkWell(
                   child: null,
                   onTap: () {
-                    AlertDialog alert = AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      content: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                    List<EventCalendar> data = this
-                        .events
-                        .where((ev) => (ev.location == e.id))
-                        .toList();
-
-                    print(e.name + " - " + e.id);
-                    Alert(
-                            style: AlertStyle(
-                                overlayColor: Color(0x10000000),
-                                backgroundColor: Color(0x5F000000),
-                                titleStyle: TextStyle(color: Color(0xFF00FF00)),
-                                descStyle: TextStyle(color: Color(0xFF00FF00))),
-                            context: context,
-                            title: e.name,
-                            desc: "La salle est libre")
-                        .show(); //mettre la sortie de clique ici
-                    print(
-                        e.name + " - " + e.id); //mettre la sortie de clique ici
+                    popup(events, e, context);
                   },
                 ),
                 color: (e
@@ -91,31 +65,7 @@ class _PlanLandscape extends State<PlanLandscape> {
                 child: InkWell(
                   child: null,
                   onTap: () {
-                    AlertDialog alert = AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      content: Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                    List<EventCalendar> data = this
-                        .events
-                        .where((ev) => (ev.location == e.id))
-                        .toList();
-
-                    print(e.name + " - " + e.id);
-                    Alert(
-                            style: AlertStyle(
-                                overlayColor: Color(0x10000000),
-                                backgroundColor: Color(0x5F000000),
-                                titleStyle: TextStyle(color: Color(0xFF00FF00)),
-                                descStyle: TextStyle(color: Color(0xFF00FF00))),
-                            context: context,
-                            title: e.name,
-                            desc: "La salle est libre")
-                        .show(); //mettre la sortie de clique ici
+                    popup(events, e, context);
                   },
                 ),
                 color: (e

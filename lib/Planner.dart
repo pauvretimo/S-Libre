@@ -9,7 +9,7 @@ class PlanPortrait extends StatefulWidget {
   const PlanPortrait({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanPortrait> createState() => _PlanPortrait(events: this.events);
+  State<PlanPortrait> createState() => _PlanPortrait(events: events);
 }
 
 class _PlanPortrait extends State<PlanPortrait> {
@@ -46,7 +46,7 @@ class PlanLandscape extends StatefulWidget {
   const PlanLandscape({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanLandscape> createState() => _PlanLandscape(events: this.events);
+  State<PlanLandscape> createState() => _PlanLandscape(events: events);
 }
 
 class _PlanLandscape extends State<PlanLandscape> {

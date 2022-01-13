@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: FutureBuilder(
         future: getCalendar(),
-        initialData: [],
+        initialData: const [],
         builder: (builder, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

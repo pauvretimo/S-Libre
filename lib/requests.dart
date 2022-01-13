@@ -7,7 +7,7 @@ Future<List<EventCalendar>> getCalendar() async {
       "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?data=8241fc3873200214e7417115c7d485ce79e7da123cf22f6f8c068302e8f3b112af3cca4281be7a96771366caa7df2f2e93013ded833fb22d11456abdcef2a5c5aba4cc45696f1a35b1905d62543466e298faeae814cf21c7ea3cf73aef96d9f8e6b9126445d989d55ac935c9672d75f3de54cad292dca82dc1abda7ddefb3c873445b366f55cc87a8e5afa9a045ba4d8395d07bffeaee1d7324cfcf2e9e6b4356213d7c347ee7c2df43b49ed91b3cccdb0db0d7caf18783a01e8c0686bd2fcfcc678a65850584e436e8504f9d2b878bbcc37ed75a7205b51"));
 
   // split lines in a list
-  LineSplitter ls = LineSplitter();
+  LineSplitter ls = const LineSplitter();
   List<String> lines = ls.convert(calendarStrings);
   List<EventCalendar> events = [];
 

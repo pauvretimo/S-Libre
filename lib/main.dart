@@ -27,13 +27,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.portrait) {
-        return Stack(alignment: Alignment.topLeft, children: const [
+        return Center(
+            child: Stack(alignment: Alignment.topLeft, children: const [
           PlanPortrait(ratio: [16, 9])
-        ]);
+        ]));
       } else {
-        return Stack(alignment: Alignment.topLeft, children: const [
+        return Center(
+            child: Stack(alignment: Alignment.topLeft, children: const [
           PlanLandscape(ratio: [16, 9])
-        ]);
+        ]));
       }
     }));
   }

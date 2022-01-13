@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/MyClipper.dart';
+import 'package:learn/requests.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PlanPortrait extends StatefulWidget {
-  const PlanPortrait({Key? key}) : super(key: key);
+  final List<EventCalendar> events;
+  const PlanPortrait({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanPortrait> createState() => _PlanPortrait();
+  State<PlanPortrait> createState() => _PlanPortrait(events: this.events);
 }
 
 class _PlanPortrait extends State<PlanPortrait> {
+  List<EventCalendar> events;
   @override
-  _PlanPortrait();
+  _PlanPortrait({required this.events});
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -24,7 +28,28 @@ class _PlanPortrait extends State<PlanPortrait> {
                 child: InkWell(
                   child: null,
                   onTap: () {
-                    print(e.name); //mettre la sortie de clique ici
+                    AlertDialog alert = AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    );
+                    List<EventCalendar> data = this
+                        .events
+                        .where((ev) => (ev.location == e.id))
+                        .toList();
+
+                    print(e.name + " - " + e.id);
+                    Alert(
+                            context: context,
+                            title: e.name,
+                            desc: "Flutter is awesome.")
+                        .show(); //mettre la sortie de clique ici
+                    print(
+                        e.name + " - " + e.id); //mettre la sortie de clique ici
                   },
                 ),
                 color: (e
@@ -38,15 +63,17 @@ class _PlanPortrait extends State<PlanPortrait> {
 }
 
 class PlanLandscape extends StatefulWidget {
-  const PlanLandscape({Key? key}) : super(key: key);
+  final List<EventCalendar> events;
+  const PlanLandscape({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanLandscape> createState() => _PlanLandscape();
+  State<PlanLandscape> createState() => _PlanLandscape(events: this.events);
 }
 
 class _PlanLandscape extends State<PlanLandscape> {
+  List<EventCalendar> events;
   @override
-  _PlanLandscape();
+  _PlanLandscape({required this.events});
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -59,7 +86,26 @@ class _PlanLandscape extends State<PlanLandscape> {
                 child: InkWell(
                   child: null,
                   onTap: () {
-                    print(e.name); //mettre la sortie de clique ici
+                    AlertDialog alert = AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    );
+                    List<EventCalendar> data = this
+                        .events
+                        .where((ev) => (ev.location == e.id))
+                        .toList();
+
+                    print(e.name + " - " + e.id);
+                    Alert(
+                            context: context,
+                            title: e.name,
+                            desc: "Flutter is awesome.")
+                        .show(); //mettre la sortie de clique ici
                   },
                 ),
                 color: (e

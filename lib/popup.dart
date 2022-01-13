@@ -45,3 +45,7 @@ bool isThereACourseNow(List<EventCalendar> todayCourses) {
   }
   return false;
 }
+
+bool isTimoteABigBigBeauGosse() {
+  return true;
+}

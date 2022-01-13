@@ -46,7 +46,7 @@ class _PlanPortrait extends State<PlanPortrait> {
                     Alert(
                             style: AlertStyle(
                                 overlayColor: Color(0x10000000),
-                                backgroundColor: Color(0x5F000000),
+                                backgroundColor: Color(0x7F000000),
                                 titleStyle: TextStyle(color: Color(0xFF00FF00)),
                                 descStyle: TextStyle(color: Color(0xFF00FF00))),
                             context: context,
@@ -109,7 +109,7 @@ class _PlanLandscape extends State<PlanLandscape> {
                     Alert(
                             style: AlertStyle(
                                 overlayColor: Color(0x10000000),
-                                backgroundColor: Color(0x5F000000),
+                                backgroundColor: Color(0x7F000000),
                                 titleStyle: TextStyle(color: Color(0xFF00FF00)),
                                 descStyle: TextStyle(color: Color(0xFF00FF00))),
                             context: context,

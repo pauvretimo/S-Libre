@@ -44,9 +44,14 @@ class _PlanPortrait extends State<PlanPortrait> {
 
                     print(e.name + " - " + e.id);
                     Alert(
+                            style: AlertStyle(
+                                overlayColor: Color(0x10000000),
+                                backgroundColor: Color(0x5F000000),
+                                titleStyle: TextStyle(color: Color(0xFF00FF00)),
+                                descStyle: TextStyle(color: Color(0xFF00FF00))),
                             context: context,
                             title: e.name,
-                            desc: "Flutter is awesome.")
+                            desc: "La salle est libre")
                         .show(); //mettre la sortie de clique ici
                     print(
                         e.name + " - " + e.id); //mettre la sortie de clique ici
@@ -102,9 +107,14 @@ class _PlanLandscape extends State<PlanLandscape> {
 
                     print(e.name + " - " + e.id);
                     Alert(
+                            style: AlertStyle(
+                                overlayColor: Color(0x10000000),
+                                backgroundColor: Color(0x5F000000),
+                                titleStyle: TextStyle(color: Color(0xFF00FF00)),
+                                descStyle: TextStyle(color: Color(0xFF00FF00))),
                             context: context,
                             title: e.name,
-                            desc: "Flutter is awesome.")
+                            desc: "La salle est libre")
                         .show(); //mettre la sortie de clique ici
                   },
                 ),

@@ -22,6 +22,12 @@ class _PlanPortrait extends State<PlanPortrait> {
         aspectRatio: 9 / 16,
         child: Stack(
           children: ENSIBSVannesRDCpaths.verticalpaths.map((e) {
+            Color dispoColor = Colors.grey;
+            if (isThereACourseNow(events, e)) {
+              dispoColor = Colors.red;
+            } else {
+              dispoColor = Colors.green;
+            }
             return ClipPath(
               // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
               child: Material(
@@ -59,6 +65,12 @@ class _PlanLandscape extends State<PlanLandscape> {
         aspectRatio: 16 / 9,
         child: Stack(
           children: ENSIBSVannesRDCpaths.horizontalpaths.map((e) {
+            Color dispoColor = Colors.grey;
+            if (isThereACourseNow(events, e)) {
+              dispoColor = Colors.red;
+            } else {
+              dispoColor = Colors.green;
+            }
             return ClipPath(
               // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
               child: Material(

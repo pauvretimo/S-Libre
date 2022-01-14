@@ -4,25 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:learn/requests.dart';
 
 void popup(List<EventCalendar> events, Room salle, BuildContext context) {
-  List<EventCalendar> data = events
-      .where((ev) =>
-          (ev.location == salle.id &&
-              DateTime.parse(ev.start).toString().substring(0, 10) ==
-                  DateTime.now().toString().substring(0, 10)))
-      .toList();
-  print(events);
-  print(data);
+  print(salle.name + " - " + salle.id);
   String dispo = "Aucune Information";
   Color dispoColor = Colors.white;
-  if (isThereACourseNow(data)) {
+  if (isThereACourseNow(events, salle)) {
     dispo = "La salle n'est pas disponible";
     dispoColor = Colors.red;
   } else {
     dispo = "La salle est disponible";
     dispoColor = Colors.green;
   }
-  print(data);
-  print(salle.name + " - " + salle.id);
   Alert(
           style: AlertStyle(
               overlayColor: const Color(0x10000000),
@@ -35,11 +26,19 @@ void popup(List<EventCalendar> events, Room salle, BuildContext context) {
       .show();
 }
 
-bool isThereACourseNow(List<EventCalendar> todayCourses) {
-  for (EventCalendar course in todayCourses) {
+bool isThereACourseNow(List<EventCalendar> events, Room salle) {
+  List<EventCalendar> data = events
+      .where((ev) => (ev.location == salle.id &&
+          DateTime.parse(ev.start).toString().substring(0, 10) ==
+              DateTime.now().toString().substring(0, 10)))
+      .toList();
+  print(events);
+  print(data);
+
+  for (EventCalendar course in data) {
     if (DateTime.now().isBefore(DateTime.parse(course.end)) &&
             DateTime.now().isAfter(DateTime.parse(course.start)) ||
-        todayCourses.isEmpty) {
+        data.isEmpty) {
       return true;
     }
   }

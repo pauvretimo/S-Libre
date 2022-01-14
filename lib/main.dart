@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if(cours == []){
+          if (cours == []) {
             return const Center(
               child: Text("Les informations ne sont pas disponibles"),
             );

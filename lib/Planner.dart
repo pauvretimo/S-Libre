@@ -3,8 +3,6 @@ import 'package:learn/paths.dart';
 import 'package:learn/MyClipper.dart';
 import 'package:learn/popup.dart';
 import 'package:learn/requests.dart';
-import 'package:learn/ClipShadowPath.dart';
-import 'package:shadow/shadow.dart';
 
 class PlanPortrait extends StatefulWidget {
   final List<EventCalendar> events;
@@ -24,24 +22,25 @@ class _PlanPortrait extends State<PlanPortrait> {
         aspectRatio: 9 / 16,
         child: Stack(
           children: ENSIBSVannesRDCpaths.verticalpaths.map((e) {
-            return Shadow(
-              child: ClipPath(
-                // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
-                child: Material(
-                  child: InkWell(
-                    child: null,
-                    onTap: () {
-                      popup(events, e, context);
-                    },
-                  ),
-                  color: (e
-                      .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
+            Color dispoColor = Colors.grey;
+            if (isThereACourseNow(events, e)) {
+              dispoColor = Colors.red;
+            } else {
+              dispoColor = Colors.green;
+            }
+            return ClipPath(
+              // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
+              child: Material(
+                child: InkWell(
+                  child: null,
+                  onTap: () {
+                    popup(events, e, context);
+                  },
                 ),
-                clipper: MyClipperPortrait(e.svgpath),
+                color: (e
+                    .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              offset: Offset(2.5, 2.5),
-              blur: Blur(0.7, 0.7),
-              opacity: 1 / 4,
+              clipper: MyClipperPortrait(e.svgpath),
             );
           }).toList(),
         ));
@@ -66,24 +65,25 @@ class _PlanLandscape extends State<PlanLandscape> {
         aspectRatio: 16 / 9,
         child: Stack(
           children: ENSIBSVannesRDCpaths.horizontalpaths.map((e) {
-            return Shadow(
-              child: ClipPath(
-                // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
-                child: Material(
-                  child: InkWell(
-                    child: null,
-                    onTap: () {
-                      popup(events, e, context);
-                    },
-                  ),
-                  color: (e
-                      .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
+            Color dispoColor = Colors.grey;
+            if (isThereACourseNow(events, e)) {
+              dispoColor = Colors.red;
+            } else {
+              dispoColor = Colors.green;
+            }
+            return ClipPath(
+              // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
+              child: Material(
+                child: InkWell(
+                  child: null,
+                  onTap: () {
+                    popup(events, e, context);
+                  },
                 ),
-                clipper: MyClipperLandscape(e.svgpath),
+                color: (e
+                    .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
               ),
-              offset: Offset(2.5, 2.5),
-              blur: Blur(100, 100),
-              opacity: 1 / 4,
+              clipper: MyClipperLandscape(e.svgpath),
             );
           }).toList(),
         ));

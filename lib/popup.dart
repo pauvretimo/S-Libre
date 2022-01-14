@@ -8,10 +8,10 @@ void popup(List<EventCalendar> events, Room salle, BuildContext context) {
       .where((ev) =>
           (ev.location == salle.id &&
               DateTime.parse(ev.start).toString().substring(0, 10) ==
-                  DateTime.now().toString().substring(0, 10)) &&
-          DateTime.parse(ev.start).isAfter(DateTime.now()))
+                  DateTime.now().toString().substring(0, 10)))
       .toList();
-
+  print(events);
+  print(data);
   String dispo = "Aucune Information";
   Color dispoColor = Colors.white;
   if (isThereACourseNow(data)) {

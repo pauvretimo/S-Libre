@@ -25,8 +25,8 @@ void popup(List<EventCalendar> events, Room salle, BuildContext context) {
   print(salle.name + " - " + salle.id);
   Alert(
           style: AlertStyle(
-              overlayColor: Color(0x10000000),
-              backgroundColor: Color(0x5F000000),
+              overlayColor: const Color(0x10000000),
+              backgroundColor: const Color(0x5F000000),
               titleStyle: TextStyle(color: dispoColor),
               descStyle: TextStyle(color: dispoColor)),
           context: context,
@@ -44,4 +44,8 @@ bool isThereACourseNow(List<EventCalendar> todayCourses) {
     }
   }
   return false;
+}
+
+bool isTimoteABigBigBeauGosse() {
+  return true;
 }

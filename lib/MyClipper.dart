@@ -12,7 +12,7 @@ class MyClipperPortrait extends CustomClipper<Path> {
     final Matrix4 matrix4 = Matrix4.identity();
     matrix4.scale(xScale, yScale);
     final path =
-        parseSvgPath(str).transform(matrix4.storage).shift(Offset(40, 15));
+        parseSvgPath(str).transform(matrix4.storage).shift(const Offset(40, 15));
 
     return path;
   }
@@ -32,7 +32,7 @@ class MyClipperLandscape extends CustomClipper<Path> {
     final Matrix4 matrix4 = Matrix4.identity();
     matrix4.scale(xScale, yScale);
     final path =
-        parseSvgPath(str).transform(matrix4.storage).shift(Offset(30, 50));
+        parseSvgPath(str).transform(matrix4.storage).shift(const Offset(30, 50));
 
     return path;
   }

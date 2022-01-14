@@ -9,7 +9,7 @@ class PlanPortrait extends StatefulWidget {
   const PlanPortrait({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanPortrait> createState() => _PlanPortrait(events: events);
+  State<PlanPortrait> createState() => _PlanPortrait(events: this.events);
 }
 
 class _PlanPortrait extends State<PlanPortrait> {
@@ -21,7 +21,7 @@ class _PlanPortrait extends State<PlanPortrait> {
     return AspectRatio(
         aspectRatio: 9 / 16,
         child: Stack(
-          children: paths.verticalpaths.map((e) {
+          children: ENSIBSVannesRDCpaths.verticalpaths.map((e) {
             return ClipPath(
               // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
               child: Material(
@@ -46,7 +46,7 @@ class PlanLandscape extends StatefulWidget {
   const PlanLandscape({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<PlanLandscape> createState() => _PlanLandscape(events: events);
+  State<PlanLandscape> createState() => _PlanLandscape(events: this.events);
 }
 
 class _PlanLandscape extends State<PlanLandscape> {
@@ -58,7 +58,7 @@ class _PlanLandscape extends State<PlanLandscape> {
     return AspectRatio(
         aspectRatio: 16 / 9,
         child: Stack(
-          children: paths.horizontalpaths.map((e) {
+          children: ENSIBSVannesRDCpaths.horizontalpaths.map((e) {
             return ClipPath(
               // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
               child: Material(

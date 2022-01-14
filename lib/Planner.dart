@@ -3,6 +3,8 @@ import 'package:learn/paths.dart';
 import 'package:learn/MyClipper.dart';
 import 'package:learn/popup.dart';
 import 'package:learn/requests.dart';
+import 'package:learn/ClipShadowPath.dart';
+import 'package:shadow/shadow.dart';
 
 class PlanPortrait extends StatefulWidget {
   final List<EventCalendar> events;
@@ -22,19 +24,24 @@ class _PlanPortrait extends State<PlanPortrait> {
         aspectRatio: 9 / 16,
         child: Stack(
           children: ENSIBSVannesRDCpaths.verticalpaths.map((e) {
-            return ClipPath(
-              // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
-              child: Material(
-                child: InkWell(
-                  child: null,
-                  onTap: () {
-                    popup(events, e, context);
-                  },
+            return Shadow(
+              child: ClipPath(
+                // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
+                child: Material(
+                  child: InkWell(
+                    child: null,
+                    onTap: () {
+                      popup(events, e, context);
+                    },
+                  ),
+                  color: (e
+                      .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
                 ),
-                color: (e
-                    .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
+                clipper: MyClipperPortrait(e.svgpath),
               ),
-              clipper: MyClipperPortrait(e.svgpath),
+              offset: Offset(2.5, 2.5),
+              blur: Blur(0.7, 0.7),
+              opacity: 1 / 4,
             );
           }).toList(),
         ));
@@ -59,19 +66,24 @@ class _PlanLandscape extends State<PlanLandscape> {
         aspectRatio: 16 / 9,
         child: Stack(
           children: ENSIBSVannesRDCpaths.horizontalpaths.map((e) {
-            return ClipPath(
-              // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
-              child: Material(
-                child: InkWell(
-                  child: null,
-                  onTap: () {
-                    popup(events, e, context);
-                  },
+            return Shadow(
+              child: ClipPath(
+                // widget prenant un path et qui permet d'inclure les widgets soujacents dans la forme du Clipath
+                child: Material(
+                  child: InkWell(
+                    child: null,
+                    onTap: () {
+                      popup(events, e, context);
+                    },
+                  ),
+                  color: (e
+                      .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
                 ),
-                color: (e
-                    .color), //couleur du material ie de la forme (inkwell et clipath ne permettent pas de colorier)
+                clipper: MyClipperLandscape(e.svgpath),
               ),
-              clipper: MyClipperLandscape(e.svgpath),
+              offset: Offset(2.5, 2.5),
+              blur: Blur(100, 100),
+              opacity: 1 / 4,
             );
           }).toList(),
         ));

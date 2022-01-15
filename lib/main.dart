@@ -43,11 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (cours == []) {
-            return const Center(
-              child: Text("Les informations ne sont pas disponibles"),
-            );
-          }
           return OrientationBuilder(builder: (context, orientation) {
             if (orientation == Orientation.portrait) {
               print('portrait');

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:learn/Planner.dart';
 import 'package:learn/requests.dart';
@@ -12,12 +14,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Salles',
       debugShowCheckedModeBanner: false,
+      scrollBehavior: AppScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
       home: const MyHomePage(),
     );
   }
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
 
 /// A Stateful widget that paints flutter logo using [CustomPaint] and [Path].

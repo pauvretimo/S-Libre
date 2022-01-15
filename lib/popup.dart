@@ -32,8 +32,6 @@ bool isThereACourseNow(List<EventCalendar> events, Room salle) {
           DateTime.parse(ev.start).toString().substring(0, 10) ==
               DateTime.now().toString().substring(0, 10)))
       .toList();
-  print(events);
-  print(data);
 
   for (EventCalendar course in data) {
     if (DateTime.now().isBefore(DateTime.parse(course.end)) &&

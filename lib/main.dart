@@ -36,32 +36,17 @@ class _MyHomePageState extends State<MyHomePage> {
       cours = events;
     });
     return Scaffold(
-      body: FutureBuilder(
-        future: getCalendar(),
-        initialData: const [],
-        builder: (builder, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return OrientationBuilder(builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              print('portrait');
+        body: FutureBuilder(
+            future: getCalendar(),
+            initialData: const [],
+            builder: (builder, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
               return Center(
                   child: Plan(
                 events: cours,
-                orientation: orientation,
               ));
-            } else {
-              print('landscape');
-              return Center(
-                  child: Plan(
-                orientation: orientation,
-                events: cours,
-              ));
-            }
-          });
-        },
-      ),
-    );
+            }));
   }
 }

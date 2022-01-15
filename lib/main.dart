@@ -47,13 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
             if (orientation == Orientation.portrait) {
               print('portrait');
               return Center(
-                  child: PlanPortrait(
+                  child: Plan(
                 events: cours,
+                orientation: orientation,
               ));
             } else {
               print('landscape');
               return Center(
-                  child: PlanLandscape(
+                  child: Plan(
+                orientation: orientation,
                 events: cours,
               ));
             }

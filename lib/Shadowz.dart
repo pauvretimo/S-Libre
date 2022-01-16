@@ -39,51 +39,67 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
       if (orientation == Orientation.portrait) {
         return AspectRatio(
             aspectRatio: 9 / 16,
-            child: Stack(key: UniqueKey(), children: [
-              ...paths.verticalpaths.map((e) {
-                return Transform.translate(
-                    offset: offset,
-                    child: ClipPath(
-                        child: Container(
-                            decoration: BoxDecoration(boxShadow: [shadow])),
-                        clipper: MyClipper(e.svgpath, orientation)));
-              }).toList(),
-              ...paths.verticalpaths.map((e) {
-                return ClipPath(
-                    child: Material(
-                        child: InkWell(
-                            child: null,
-                            onTap: () {
-                              popup(events, e, context);
-                            }),
-                        color: e.color),
-                    clipper: MyClipper(e.svgpath, orientation));
-              }).toList()
-            ]));
+            child: Transform.translate(
+                offset: Offset(0, 0),
+                child: Transform.scale(
+                    scale: 0.95,
+                    child: Card(
+                        elevation: 3,
+                        child: Stack(key: UniqueKey(), children: [
+                          ...paths.verticalpaths.map((e) {
+                            return Transform.translate(
+                                offset: offset,
+                                child: ClipPath(
+                                    child: Container(
+                                        decoration:
+                                            BoxDecoration(boxShadow: [shadow])),
+                                    clipper:
+                                        MyClipper(e.svgpath, orientation)));
+                          }).toList(),
+                          ...paths.verticalpaths.map((e) {
+                            return ClipPath(
+                                child: Material(
+                                    child: InkWell(
+                                        child: null,
+                                        onTap: () {
+                                          popup(events, e, context);
+                                        }),
+                                    color: e.color),
+                                clipper: MyClipper(e.svgpath, orientation));
+                          }).toList()
+                        ])))));
       } else {
         return AspectRatio(
             aspectRatio: 16 / 9,
-            child: Stack(key: UniqueKey(), children: [
-              ...paths.horizontalpaths.map((e) {
-                return Transform.translate(
-                    offset: offset,
-                    child: ClipPath(
-                        child: Container(
-                            decoration: BoxDecoration(boxShadow: [shadow])),
-                        clipper: MyClipper(e.svgpath, orientation)));
-              }).toList(),
-              ...paths.horizontalpaths.map((e) {
-                return ClipPath(
-                    child: Material(
-                        child: InkWell(
-                            child: null,
-                            onTap: () {
-                              popup(events, e, context);
-                            }),
-                        color: e.color),
-                    clipper: MyClipper(e.svgpath, orientation));
-              }).toList()
-            ]));
+            child: Transform.translate(
+                offset: Offset(0, 0),
+                child: Transform.scale(
+                    scale: 0.95,
+                    child: Card(
+                        elevation: 3,
+                        child: Stack(key: UniqueKey(), children: [
+                          ...paths.horizontalpaths.map((e) {
+                            return Transform.translate(
+                                offset: offset,
+                                child: ClipPath(
+                                    child: Container(
+                                        decoration:
+                                            BoxDecoration(boxShadow: [shadow])),
+                                    clipper:
+                                        MyClipper(e.svgpath, orientation)));
+                          }).toList(),
+                          ...paths.horizontalpaths.map((e) {
+                            return ClipPath(
+                                child: Material(
+                                    child: InkWell(
+                                        child: null,
+                                        onTap: () {
+                                          popup(events, e, context);
+                                        }),
+                                    color: e.color),
+                                clipper: MyClipper(e.svgpath, orientation));
+                          }).toList()
+                        ])))));
       }
     });
   }

@@ -14,7 +14,6 @@ Future<List<EventCalendar>> getCalendar() async {
   //   calendarStrings = prefs.getString('calendar')!;
   // }
 
-
   // split lines in a list
   LineSplitter ls = const LineSplitter();
   List<String> lines = ls.convert(calendarStrings);

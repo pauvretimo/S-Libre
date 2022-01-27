@@ -16,8 +16,13 @@ class Room {
 class Paths {
   List<Room> verticalpaths;
   List<Room> horizontalpaths;
+  int xScaleh;
+  int yScaleh;
+  int xScalev;
+  int yScalev;
 
-  Paths(this.verticalpaths, this.horizontalpaths);
+  Paths(this.verticalpaths, this.horizontalpaths, this.xScalev, this.yScalev,
+      this.xScaleh, this.yScaleh);
 }
 
 //ENSIBS Vannes RDC
@@ -30,7 +35,11 @@ Paths ENSIBSVannesRDCpaths = Paths(
     pathslistENSIBSVannesRDCh
         .map((e) => (Room(
             e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
-        .toList());
+        .toList(),
+    1300,
+    2500,
+    6500,
+    3600);
 
 //ENSIBS Vannes Etage 1
 
@@ -42,4 +51,16 @@ Paths ENSIBSVannesE1paths = Paths(
     pathslistENSIBSVannesE1h
         .map((e) => (Room(
             e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
-        .toList());
+        .toList(),
+    1300,
+    2500,
+    2450,
+    1380);
+
+class Bat {
+  List<Paths> bat;
+  int nb_floors;
+  Bat(this.bat, this.nb_floors);
+}
+
+Bat ENSIBS_Vannes = Bat([ENSIBSVannesRDCpaths, ENSIBSVannesE1paths], 2);

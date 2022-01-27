@@ -3,17 +3,20 @@ import 'package:learn/MyClipper.dart';
 import 'package:learn/popup.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/requests.dart';
+import 'package:learn/Floor.dart';
 
 @immutable
 class ClipShadowedPathclicker extends StatefulWidget {
   final BoxShadow shadow;
   final Paths paths;
   final List<EventCalendar> events;
+  final double eleveted;
 
   ClipShadowedPathclicker({
     required this.shadow,
     required this.paths,
     required this.events,
+    required this.eleveted,
   });
   @override
   State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker(
@@ -24,7 +27,8 @@ class ClipShadowedPathclicker extends StatefulWidget {
           color: shadow.color,
           blurStyle: shadow.blurStyle),
       paths,
-      events);
+      events,
+      eleveted);
 }
 
 class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
@@ -32,19 +36,20 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
   Offset offset;
   Paths paths;
   List<EventCalendar> events;
-  _ClipShadowedPathclicker(this.offset, this.shadow, this.paths, this.events);
+  double eleveted;
+  _ClipShadowedPathclicker(
+      this.offset, this.shadow, this.paths, this.events, this.eleveted);
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.portrait) {
-        return AspectRatio(
-            aspectRatio: 9 / 16,
-            child: Transform.translate(
-                offset: Offset(0, 0),
+        return Center(
+            child: AspectRatio(
+                aspectRatio: 9 / 16,
                 child: Transform.scale(
                     scale: 0.95,
                     child: Card(
-                        elevation: 3,
+                        elevation: eleveted,
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.verticalpaths.map((e) {
                             return Transform.translate(
@@ -53,8 +58,8 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                     child: Container(
                                         decoration:
                                             BoxDecoration(boxShadow: [shadow])),
-                                    clipper:
-                                        MyClipper(e.svgpath, orientation)));
+                                    clipper: MyClipper(e.svgpath, orientation,
+                                        paths.xScalev, paths.yScalev)));
                           }).toList(),
                           ...paths.verticalpaths.map((e) {
                             return ClipPath(
@@ -65,18 +70,18 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                           popup(events, e, context);
                                         }),
                                     color: e.color),
-                                clipper: MyClipper(e.svgpath, orientation));
+                                clipper: MyClipper(e.svgpath, orientation,
+                                    paths.xScalev, paths.yScalev));
                           }).toList()
                         ])))));
       } else {
-        return AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Transform.translate(
-                offset: Offset(0, 0),
+        return Center(
+            child: AspectRatio(
+                aspectRatio: 16 / 9,
                 child: Transform.scale(
                     scale: 0.95,
                     child: Card(
-                        elevation: 3,
+                        elevation: eleveted,
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.horizontalpaths.map((e) {
                             return Transform.translate(
@@ -85,8 +90,8 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                     child: Container(
                                         decoration:
                                             BoxDecoration(boxShadow: [shadow])),
-                                    clipper:
-                                        MyClipper(e.svgpath, orientation)));
+                                    clipper: MyClipper(e.svgpath, orientation,
+                                        paths.xScaleh, paths.yScaleh)));
                           }).toList(),
                           ...paths.horizontalpaths.map((e) {
                             return ClipPath(
@@ -97,7 +102,8 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                           popup(events, e, context);
                                         }),
                                     color: e.color),
-                                clipper: MyClipper(e.svgpath, orientation));
+                                clipper: MyClipper(e.svgpath, orientation,
+                                    paths.xScaleh, paths.yScaleh));
                           }).toList()
                         ])))));
       }

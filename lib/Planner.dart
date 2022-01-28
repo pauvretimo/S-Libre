@@ -49,7 +49,7 @@ class _Plan extends State<Plan> {
               width: 180,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                  color: Color(0xCF64C8C8),
+                  color: Color(0xCF64C8FF),
                   borderRadius: BorderRadius.all(Radius.circular(16.0))),
               child: const Text('Batiment : ENSIBS Vannes'),
             )),
@@ -61,10 +61,10 @@ class _Plan extends State<Plan> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.all(0.0),
               decoration: const BoxDecoration(
-                  color: Color(0xCF64C8C8),
+                  color: Color(0xCF64C8FF),
                   borderRadius: BorderRadius.all(Radius.circular(16.0))),
               child: PopupMenuButton(
-                color: const Color(0xCF64C8C8),
+                color: const Color(0xCF64C8FF),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 child: Center(child: Text('Etage : $_selected')),
@@ -78,7 +78,7 @@ class _Plan extends State<Plan> {
                   setState(() => _selected = index);
                   pageController.animateToPage(index,
                       curve: Curves.easeIn,
-                      duration: Duration(milliseconds: 300));
+                      duration: const Duration(milliseconds: 300));
                 },
               ),
             ))

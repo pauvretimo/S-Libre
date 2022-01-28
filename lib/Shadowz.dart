@@ -3,7 +3,6 @@ import 'package:learn/MyClipper.dart';
 import 'package:learn/popup.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/requests.dart';
-import 'package:learn/Floor.dart';
 
 @immutable
 class ClipShadowedPathclicker extends StatefulWidget {
@@ -67,7 +66,11 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                     child: InkWell(
                                         child: null,
                                         onTap: () {
-                                          popup(events, e, context);
+                                          if (e.clickable) {
+                                            popup(events, e, context);
+                                          } else {
+                                            print("pas clickable");
+                                          }
                                         }),
                                     color: e.color),
                                 clipper: MyClipper(e.svgpath, orientation,
@@ -99,7 +102,11 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                     child: InkWell(
                                         child: null,
                                         onTap: () {
-                                          popup(events, e, context);
+                                          if (e.clickable) {
+                                            popup(events, e, context);
+                                          } else {
+                                            print("pas clickable");
+                                          }
                                         }),
                                     color: e.color),
                                 clipper: MyClipper(e.svgpath, orientation,

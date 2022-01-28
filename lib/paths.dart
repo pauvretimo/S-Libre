@@ -9,8 +9,9 @@ class Room {
   Color color;
   String name;
   String id;
+  bool clickable;
 
-  Room(this.svgpath, this.color, this.name, this.id);
+  Room(this.svgpath, this.color, this.name, this.id, this.clickable);
 }
 
 class Paths {
@@ -29,12 +30,12 @@ class Paths {
 
 Paths ENSIBSVannesRDCpaths = Paths(
     pathslistENSIBSVannesRDCv
-        .map((e) => (Room(
-            e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
         .toList(),
     pathslistENSIBSVannesRDCh
-        .map((e) => (Room(
-            e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
         .toList(),
     1300,
     2500,
@@ -45,12 +46,12 @@ Paths ENSIBSVannesRDCpaths = Paths(
 
 Paths ENSIBSVannesE1paths = Paths(
     pathslistENSIBSVannesE1v
-        .map((e) => (Room(
-            e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
         .toList(),
     pathslistENSIBSVannesE1h
-        .map((e) => (Room(
-            e[0] as String, e[1] as Color, e[2] as String, e[3] as String)))
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
         .toList(),
     1300,
     2500,

@@ -7,24 +7,22 @@ class Floor extends StatefulWidget {
   final int floor;
   final List<EventCalendar> events;
   final Bat batiment;
-  final double elevation;
-  Floor(
-      {required this.floor,
-      required this.events,
-      required this.batiment,
-      required this.elevation});
+  Floor({
+    required this.floor,
+    required this.events,
+    required this.batiment,
+  });
 
   @override
-  State<Floor> createState() => _Floor(events, batiment, floor, elevation);
+  State<Floor> createState() => _Floor(events, batiment, floor);
 }
 
 class _Floor extends State<Floor> {
   List<EventCalendar> events;
   int floor;
-  double elevation;
   Bat batiment;
   @override
-  _Floor(this.events, this.batiment, this.floor, this.elevation);
+  _Floor(this.events, this.batiment, this.floor);
   @override
   Widget build(BuildContext context) {
     return ClipShadowedPathclicker(
@@ -33,7 +31,6 @@ class _Floor extends State<Floor> {
             blurRadius: 2,
             spreadRadius: 4,
             color: Color(0x4A000000)),
-        eleveted: elevation,
         paths: batiment.bat[floor],
         events: events);
   }

@@ -9,25 +9,23 @@ class ClipShadowedPathclicker extends StatefulWidget {
   final BoxShadow shadow;
   final Paths paths;
   final List<EventCalendar> events;
-  final double eleveted;
 
   ClipShadowedPathclicker({
     required this.shadow,
     required this.paths,
     required this.events,
-    required this.eleveted,
   });
   @override
   State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker(
-      shadow.offset,
-      BoxShadow(
-          blurRadius: shadow.blurRadius,
-          spreadRadius: shadow.spreadRadius,
-          color: shadow.color,
-          blurStyle: shadow.blurStyle),
-      paths,
-      events,
-      eleveted);
+        shadow.offset,
+        BoxShadow(
+            blurRadius: shadow.blurRadius,
+            spreadRadius: shadow.spreadRadius,
+            color: shadow.color,
+            blurStyle: shadow.blurStyle),
+        paths,
+        events,
+      );
 }
 
 class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
@@ -35,9 +33,7 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
   Offset offset;
   Paths paths;
   List<EventCalendar> events;
-  double eleveted;
-  _ClipShadowedPathclicker(
-      this.offset, this.shadow, this.paths, this.events, this.eleveted);
+  _ClipShadowedPathclicker(this.offset, this.shadow, this.paths, this.events);
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(builder: (context, orientation) {
@@ -48,7 +44,7 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                 child: Transform.scale(
                     scale: 0.95,
                     child: Card(
-                        elevation: eleveted,
+                        elevation: 2.0,
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.verticalpaths.map((e) {
                             return Transform.translate(
@@ -84,7 +80,7 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                 child: Transform.scale(
                     scale: 0.95,
                     child: Card(
-                        elevation: eleveted,
+                        elevation: 2.0,
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.horizontalpaths.map((e) {
                             return Transform.translate(

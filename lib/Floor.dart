@@ -7,11 +7,12 @@ class Floor extends StatefulWidget {
   final int floor;
   final List<EventCalendar> events;
   final Bat batiment;
-  Floor({
+  const Floor({
+    Key? key,
     required this.floor,
     required this.events,
     required this.batiment,
-  });
+  }) : super(key: key);
 
   @override
   State<Floor> createState() => _Floor(events, batiment, floor);

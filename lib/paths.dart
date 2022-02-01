@@ -17,14 +17,16 @@ class Room {
 class Paths {
   List<Room> verticalpaths;
   List<Room> horizontalpaths;
-  int xScaleh;
-  int yScaleh;
   int xScalev;
   int yScalev;
+  int xScaleh;
+  int yScaleh;
 
   Paths(this.verticalpaths, this.horizontalpaths, this.xScalev, this.yScalev,
       this.xScaleh, this.yScaleh);
 }
+
+//Création des class path par étage
 
 //ENSIBS Vannes RDC
 
@@ -58,6 +60,38 @@ Paths ENSIBSVannesE1paths = Paths(
     2450,
     1380);
 
+//ENSIBS Lorient Etage 1
+
+Paths ENSIBSLorientE1paths = Paths(
+    pathslistENSIBSLorientE1v
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
+        .toList(),
+    pathslistENSIBSLorientE1h
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
+        .toList(),
+    1300,
+    2500,
+    3000,
+    2000);
+
+Paths ENSIBSLorientE2paths = Paths(
+    pathslistENSIBSLorientE2v
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
+        .toList(),
+    pathslistENSIBSLorientE2h
+        .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
+            e[3] as String, e[4] as bool)))
+        .toList(),
+    1300,
+    2500,
+    3000,
+    2000);
+
+//Class bat pour les batiments
+
 class Bat {
   List<Paths> bat;
   int nb_floors;
@@ -65,3 +99,8 @@ class Bat {
 }
 
 Bat ENSIBS_Vannes = Bat([ENSIBSVannesRDCpaths, ENSIBSVannesE1paths], 2);
+
+Bat ENSIBS_Lorient = Bat([ENSIBSLorientE1paths, ENSIBSLorientE2paths], 2);
+
+List<Bat> listbat = [ENSIBS_Vannes, ENSIBS_Lorient];
+List<String> listbatname = ["ENSIBS Vannes", "ENSIBS Lorient"];

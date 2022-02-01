@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/requests.dart';
@@ -17,6 +19,8 @@ class _Plan extends State<Plan> {
   _Plan({required this.events});
 
   var _selected = 0;
+  int _bat = 0;
+  var batname = listbatname[0];
   PageController pageController = PageController(
     initialPage: 0,
     keepPage: true,
@@ -28,6 +32,7 @@ class _Plan extends State<Plan> {
   Widget build(BuildContext context) {
     return Stack(children: [
       PageView(
+          key: ValueKey(_bat),
           physics: const BouncingScrollPhysics(),
           controller: pageController,
           onPageChanged: (index) => {
@@ -36,9 +41,12 @@ class _Plan extends State<Plan> {
                 })
               },
           children: List.generate(
-              ENSIBS_Vannes.nb_floors,
+              listbat[_bat].nb_floors,
               (index) => Floor(
-                  floor: index, events: events, batiment: ENSIBS_Vannes))),
+                    floor: index,
+                    events: events,
+                    batiment: listbat[_bat],
+                  ))),
       Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,14 +64,14 @@ class _Plan extends State<Plan> {
                       alignment: Alignment.center,
                       child: PopupMenuButton(
                         offset: Offset(
-                            80, -(ENSIBS_Vannes.nb_floors.toDouble() * 45)),
+                            80, -(listbat[_bat].nb_floors.toDouble() * 45)),
                         color: const Color(0xCF64C8FF),
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16.0))),
                         child: Center(child: Text('Etage : $_selected')),
                         itemBuilder: (context) {
-                          return List.generate(ENSIBS_Vannes.nb_floors,
+                          return List.generate(listbat[_bat].nb_floors,
                               (index) {
                             return PopupMenuItem(
                                 value: index, child: Text('Etage : $index'));
@@ -85,7 +93,26 @@ class _Plan extends State<Plan> {
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16.0))),
                   child: Container(
-                    child: const Text('Batiment : ENSIBS Vannes'),
+                    child: PopupMenuButton(
+                      offset: const Offset(80, -90),
+                      color: const Color(0xCF64C8FF),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0))),
+                      child: Center(child: Text('Batiment : $batname')),
+                      itemBuilder: (context) {
+                        return List.generate(listbat.length, (index) {
+                          return PopupMenuItem(
+                              value: index, child: Text('Batiment : $index'));
+                        });
+                      },
+                      onSelected: (int index) {
+                        setState(() => _bat = index);
+                        setState(() {
+                          batname = listbatname[_bat];
+                        });
+                      },
+                    ),
                     height: 30,
                     width: 180,
                     alignment: Alignment.center,

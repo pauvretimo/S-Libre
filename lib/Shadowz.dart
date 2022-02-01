@@ -36,17 +36,27 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
   _ClipShadowedPathclicker(this.offset, this.shadow, this.paths, this.events);
   @override
   Widget build(BuildContext context) {
+    // on gère l'orientation du plan
+
     return OrientationBuilder(builder: (context, orientation) {
+      // portrait
+
       if (orientation == Orientation.portrait) {
+        // le center permet d'empêcher le widget PageView de casser le ratio fixe du AspectRatio
         return Center(
+            // fixe le ratio des cartes
             child: AspectRatio(
                 aspectRatio: 9 / 16,
-                child: Transform.scale(
-                    scale: 0.95,
+                // Laisse un espace au bord de la carte
+                child: Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width / 1000),
+                    // La carte en question
                     child: Card(
                         elevation: 2.0,
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.verticalpaths.map((e) {
+                            // ombres
                             return Transform.translate(
                                 offset: offset,
                                 child: ClipPath(
@@ -57,6 +67,7 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                         paths.xScalev, paths.yScalev)));
                           }).toList(),
                           ...paths.verticalpaths.map((e) {
+                            // dessins
                             return ClipPath(
                                 child: Material(
                                     child: InkWell(
@@ -73,12 +84,16 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                     paths.xScalev, paths.yScalev));
                           }).toList()
                         ])))));
+
+        // paysage
+
       } else {
         return Center(
             child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Transform.scale(
-                    scale: 0.95,
+                child: Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.height / 1000),
                     child: Card(
                         elevation: 2.0,
                         child: Stack(key: UniqueKey(), children: [

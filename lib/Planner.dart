@@ -31,6 +31,10 @@ class _Plan extends State<Plan> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
+      // Création des pages de batiments
+      //    Chaque page est composé d'un widget Floor qui permet de gérer l'ombre, et de créer un
+      //    widget clipshadowpathclicker pour un étage donné pour un batiment donné
+
       PageView(
           key: ValueKey(_bat),
           physics: const BouncingScrollPhysics(),
@@ -47,10 +51,19 @@ class _Plan extends State<Plan> {
                     events: events,
                     batiment: listbat[_bat],
                   ))),
+
+      // Boutons d'indication d'étage et de batiment
+      //    le padding sert à espacer les boutons entre eux
+      //    le matérial gère l'élévation, la forme et la couleur des boutons
+      //    le container s'occupe de la taille des boutons
+      //    le popupmenubutton permet de faire la liste déroulante pour la sélection des étages / batiment
+
       Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Menu de sélection des étages
+
             Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Material(
@@ -85,6 +98,9 @@ class _Plan extends State<Plan> {
                         },
                       ),
                     ))),
+
+            //Menu de sélection des batiments
+
             Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Material(
@@ -93,6 +109,9 @@ class _Plan extends State<Plan> {
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16.0))),
                   child: Container(
+                    height: 30,
+                    width: 180,
+                    alignment: Alignment.center,
                     child: PopupMenuButton(
                       offset: const Offset(80, -90),
                       color: const Color(0xCF64C8FF),
@@ -113,9 +132,6 @@ class _Plan extends State<Plan> {
                         });
                       },
                     ),
-                    height: 30,
-                    width: 180,
-                    alignment: Alignment.center,
                   ),
                 )),
           ]),

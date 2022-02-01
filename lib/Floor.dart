@@ -27,11 +27,13 @@ class _Floor extends State<Floor> {
   @override
   Widget build(BuildContext context) {
     return ClipShadowedPathclicker(
+        // gestion de l'ombre
         shadow: BoxShadow(
             offset: Offset(2.5, 2.5),
             blurRadius: 2,
             spreadRadius: 4,
             color: Color(0x4A000000)),
+        // gestion de l'étage
         paths: batiment.bat[floor],
         events: events);
   }

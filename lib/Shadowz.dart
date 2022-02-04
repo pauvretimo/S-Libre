@@ -70,15 +70,13 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                             // dessins
                             return ClipPath(
                                 child: Material(
-                                    child: InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          if (e.clickable) {
-                                            popup(events, e, context);
-                                          } else {
-                                            print("pas clickable");
-                                          }
-                                        }),
+                                    child: e.clickable
+                                        ? InkWell(
+                                            child: null,
+                                            onTap: () {
+                                              popup(events, e, context);
+                                            })
+                                        : Container(),
                                     color: e.color),
                                 clipper: MyClipper(e.svgpath, orientation,
                                     paths.xScalev, paths.yScalev));
@@ -110,15 +108,13 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                           ...paths.horizontalpaths.map((e) {
                             return ClipPath(
                                 child: Material(
-                                    child: InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          if (e.clickable) {
-                                            popup(events, e, context);
-                                          } else {
-                                            print("pas clickable");
-                                          }
-                                        }),
+                                    child: e.clickable
+                                        ? InkWell(
+                                            child: null,
+                                            onTap: () {
+                                              popup(events, e, context);
+                                            })
+                                        : Container(),
                                     color: e.color),
                                 clipper: MyClipper(e.svgpath, orientation,
                                     paths.xScaleh, paths.yScaleh));

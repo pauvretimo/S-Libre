@@ -6,6 +6,8 @@ import 'package:learn/requests.dart';
 
 @immutable
 class ClipShadowedPathclicker extends StatefulWidget {
+  final int floor;
+  final String bat;
   final BoxShadow shadow;
   final Paths paths;
   final List<EventCalendar> events;
@@ -14,6 +16,8 @@ class ClipShadowedPathclicker extends StatefulWidget {
     required this.shadow,
     required this.paths,
     required this.events,
+    required this.floor,
+    required this.bat,
   });
   @override
   State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker(
@@ -25,6 +29,8 @@ class ClipShadowedPathclicker extends StatefulWidget {
             blurStyle: shadow.blurStyle),
         paths,
         events,
+        floor,
+        bat,
       );
 }
 
@@ -33,7 +39,10 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
   Offset offset;
   Paths paths;
   List<EventCalendar> events;
-  _ClipShadowedPathclicker(this.offset, this.shadow, this.paths, this.events);
+  int floor;
+  String bat;
+  _ClipShadowedPathclicker(
+      this.offset, this.shadow, this.paths, this.events, this.floor, this.bat);
   @override
   Widget build(BuildContext context) {
     // on gère l'orientation du plan
@@ -44,19 +53,20 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
       if (orientation == Orientation.portrait) {
         // le center permet d'empêcher le widget PageView de casser le ratio fixe du AspectRatio
         return Center(
-            // fixe le ratio des cartes
             child: AspectRatio(
-                aspectRatio: 9 / 16,
-                // Laisse un espace au bord de la carte
-                child: Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width / 1000),
-                    // La carte en question
+                aspectRatio: 16 / 9,
+                child: Card(
+                    color: const Color(0xFFCFCFCF),
+                    margin:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 50),
                     child: Card(
-                        elevation: 2.0,
-                        child: Stack(key: UniqueKey(), children: [
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.height / 50),
+                        color: const Color(0xFF202030),
+                        elevation: 10.0,
+                        child: Center(
+                            child: Stack(key: UniqueKey(), children: [
                           ...paths.verticalpaths.map((e) {
-                            // ombres
                             return Transform.translate(
                                 offset: offset,
                                 child: ClipPath(
@@ -67,23 +77,30 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                                         paths.xScalev, paths.yScalev)));
                           }).toList(),
                           ...paths.verticalpaths.map((e) {
-                            // dessins
                             return ClipPath(
                                 child: Material(
-                                    child: InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          if (e.clickable) {
-                                            popup(events, e, context);
-                                          } else {
-                                            print("pas clickable");
-                                          }
-                                        }),
-                                    color: e.color),
+                                  color: e.color,
+                                  child: e.clickable
+                                      ? InkWell(
+                                          child: null,
+                                          hoverColor: const Color(0xA1FFFFFF),
+                                          highlightColor:
+                                              const Color(0x31FFFFFF),
+                                          splashColor: const Color(0xA1FFFFFF),
+                                          onTap: () {
+                                            if (e.clickable) {
+                                              popup(events, e, context);
+                                            } else {
+                                              print("pas clickable");
+                                            }
+                                          })
+                                      : Container(),
+                                  //création d'un bouton uniquement si clickable
+                                ),
                                 clipper: MyClipper(e.svgpath, orientation,
                                     paths.xScalev, paths.yScalev));
                           }).toList()
-                        ])))));
+                        ]))))));
 
         // paysage
 
@@ -91,12 +108,17 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
         return Center(
             child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height / 1000),
+                child: Card(
+                    color: const Color(0xFFCFCFCF),
+                    margin:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 50),
                     child: Card(
-                        elevation: 2.0,
-                        child: Stack(key: UniqueKey(), children: [
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.height / 50),
+                        color: const Color(0xFF202030),
+                        elevation: 10.0,
+                        child: Center(
+                            child: Stack(key: UniqueKey(), children: [
                           ...paths.horizontalpaths.map((e) {
                             return Transform.translate(
                                 offset: offset,
@@ -110,20 +132,28 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                           ...paths.horizontalpaths.map((e) {
                             return ClipPath(
                                 child: Material(
-                                    child: InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          if (e.clickable) {
-                                            popup(events, e, context);
-                                          } else {
-                                            print("pas clickable");
-                                          }
-                                        }),
-                                    color: e.color),
+                                  color: e.color,
+                                  child: e.clickable
+                                      ? InkWell(
+                                          child: null,
+                                          hoverColor: const Color(0xA1FFFFFF),
+                                          highlightColor:
+                                              const Color(0x31FFFFFF),
+                                          splashColor: const Color(0xA1FFFFFF),
+                                          onTap: () {
+                                            if (e.clickable) {
+                                              popup(events, e, context);
+                                            } else {
+                                              print("pas clickable");
+                                            }
+                                          })
+                                      : Container(),
+                                  //création d'un bouton uniquement si clickable
+                                ),
                                 clipper: MyClipper(e.svgpath, orientation,
                                     paths.xScaleh, paths.yScaleh));
                           }).toList()
-                        ])))));
+                        ]))))));
       }
     });
   }

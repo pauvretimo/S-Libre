@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'App Salles',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(),
     );
@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       cours = events;
     });
     return Scaffold(
+        backgroundColor: const Color(0xFF000000),
         body: FutureBuilder(
             future: getCalendar(),
             initialData: const [],

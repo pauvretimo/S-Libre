@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:learn/paths.dart';
 import 'package:learn/requests.dart';
 import 'package:learn/Floor.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
 
 class Plan extends StatefulWidget {
   final List<EventCalendar> events;
@@ -50,91 +49,99 @@ class _Plan extends State<Plan> {
                     floor: index,
                     events: events,
                     batiment: listbat[_bat],
+                    nom: batname,
                   ))),
-
-      // Boutons d'indication d'étage et de batiment
-      //    le padding sert à espacer les boutons entre eux
-      //    le matérial gère l'élévation, la forme et la couleur des boutons
-      //    le container s'occupe de la taille des boutons
-      //    le popupmenubutton permet de faire la liste déroulante pour la sélection des étages / batiment
-
       Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Menu de sélection des étages
+        children: [
+          // Boutons d'indication d'étage et de batiment
+          //    le padding sert à espacer les boutons entre eux
+          //    le matérial gère l'élévation, la forme et la couleur des boutons
+          //    le container s'occupe de la taille des boutons
+          //    le popupmenubutton permet de faire la liste déroulante pour la sélection des étages / batiment
 
-            Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Material(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    color: const Color(0xCF64C8FF),
-                    elevation: 3,
-                    child: Container(
-                      height: 30,
-                      width: 90,
-                      alignment: Alignment.center,
-                      child: PopupMenuButton(
-                        offset: Offset(
-                            80, -(listbat[_bat].nb_floors.toDouble() * 45)),
-                        color: const Color(0xCF64C8FF),
+          Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Menu de sélection des étages
+
+                Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Material(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16.0))),
-                        child: Center(child: Text('Etage : $_selected')),
-                        itemBuilder: (context) {
-                          return List.generate(listbat[_bat].nb_floors,
-                              (index) {
-                            return PopupMenuItem(
-                                value: index, child: Text('Etage : $index'));
-                          });
-                        },
-                        onSelected: (int index) {
-                          setState(() => _selected = index);
-                          pageController.animateToPage(index,
-                              curve: Curves.easeIn,
-                              duration: const Duration(milliseconds: 300));
-                        },
-                      ),
-                    ))),
+                        color: const Color(0xCF64C8FF),
+                        elevation: 3,
+                        child: Container(
+                          height: 30,
+                          width: 90,
+                          alignment: Alignment.center,
+                          child: PopupMenuButton(
+                            offset: Offset(
+                                80, -(listbat[_bat].nb_floors.toDouble() * 45)),
+                            color: const Color(0xCF64C8FF),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16.0))),
+                            child: Center(child: Text('Etage : $_selected')),
+                            itemBuilder: (context) {
+                              return List.generate(listbat[_bat].nb_floors,
+                                  (index) {
+                                return PopupMenuItem(
+                                    value: index,
+                                    child: Text('Etage : $index'));
+                              });
+                            },
+                            onSelected: (int index) {
+                              setState(() => _selected = index);
+                              pageController.animateToPage(index,
+                                  curve: Curves.easeIn,
+                                  duration: const Duration(milliseconds: 300));
+                            },
+                          ),
+                        ))),
 
-            //Menu de sélection des batiments
+                //Menu de sélection des batiments
 
-            Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Material(
-                  elevation: 3,
-                  color: const Color(0xCF64C8FF),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  child: Container(
-                    height: 30,
-                    width: 180,
-                    alignment: Alignment.center,
-                    child: PopupMenuButton(
-                      offset: const Offset(80, -90),
+                Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Material(
+                      elevation: 3,
                       color: const Color(0xCF64C8FF),
                       shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(16.0))),
-                      child: Center(child: Text('Batiment : $batname')),
-                      itemBuilder: (context) {
-                        return List.generate(listbat.length, (index) {
-                          return PopupMenuItem(
-                              value: index, child: Text('Batiment : $index'));
-                        });
-                      },
-                      onSelected: (int index) {
-                        setState(() => _bat = index);
-                        setState(() {
-                          batname = listbatname[_bat];
-                        });
-                      },
-                    ),
-                  ),
-                )),
-          ]),
+                      child: Container(
+                        height: 30,
+                        width: 180,
+                        alignment: Alignment.center,
+                        child: PopupMenuButton(
+                          offset: const Offset(80, -90),
+                          color: const Color(0xCF64C8FF),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0))),
+                          child: Center(child: Text('Batiment : $batname')),
+                          itemBuilder: (context) {
+                            return List.generate(listbat.length, (index) {
+                              return PopupMenuItem(
+                                  value: index,
+                                  child: Text('Batiment : $index'));
+                            });
+                          },
+                          onSelected: (int index) {
+                            setState(() => _bat = index);
+                            setState(() {
+                              batname = listbatname[_bat];
+                            });
+                          },
+                        ),
+                      ),
+                    )),
+              ])
+        ],
+      )
     ]);
   }
 }

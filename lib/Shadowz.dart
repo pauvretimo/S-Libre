@@ -48,12 +48,14 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
             child: AspectRatio(
                 aspectRatio: 9 / 16,
                 // Laisse un espace au bord de la carte
-                child: Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width / 1000),
-                    // La carte en question
+                child: Card(
+                    color: Colors.black,
+                    elevation: 2.0,
+                    margin:
+                        EdgeInsets.all(MediaQuery.of(context).size.width / 100),
                     child: Card(
-                        elevation: 2.0,
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 100),
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.verticalpaths.map((e) {
                             // ombres
@@ -89,11 +91,14 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
         return Center(
             child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height / 1000),
+                child: Card(
+                    color: Colors.black,
+                    elevation: 2.0,
+                    margin: EdgeInsets.all(
+                        MediaQuery.of(context).size.height / 100),
                     child: Card(
-                        elevation: 2.0,
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.height / 100),
                         child: Stack(key: UniqueKey(), children: [
                           ...paths.horizontalpaths.map((e) {
                             return Transform.translate(

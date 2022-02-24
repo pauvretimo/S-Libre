@@ -32,6 +32,7 @@ dependencies:
   touchable: ^1.0.0
   svg_path_parser: ^1.1.1
   swipe: ^0.0.1
+  sliding_up_panel: ^2.0.0+1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,7 +43,8 @@ dependencies:
   rflutter_alert: ^2.0.4
   http: ^0.13.4
   shared_preferences: ^2.0.12
-
+  circle_list: ^1.0.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,3 +97,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+fonts:
+   - family: Dongle
+     fonts:
+       - asset: /lib/font/Dongle-Regular.ttf
+         weight: 400

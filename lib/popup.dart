@@ -18,8 +18,18 @@ void popup(List<EventCalendar> events, Room salle, BuildContext context) {
           style: AlertStyle(
               overlayColor: const Color(0x10000000),
               backgroundColor: const Color(0x5F000000),
-              titleStyle: TextStyle(color: dispoColor),
-              descStyle: TextStyle(color: dispoColor)),
+              titleStyle: TextStyle(
+                color: dispoColor,
+                fontWeight: FontWeight.w400,
+                fontFamily: "Dongle",
+                fontSize: 50,
+              ),
+              descStyle: TextStyle(
+                color: dispoColor,
+                fontWeight: FontWeight.w400,
+                fontFamily: "Dongle",
+                fontSize: 40,
+              )),
           context: context,
           title: salle.name,
           desc: dispo)

@@ -18,6 +18,7 @@ class _TimePicker extends State<TimePicker> {
   ValueNotifier<bool> startSelected = ValueNotifier(true);
   ValueNotifier<bool> AM_st = ValueNotifier(true);
   ValueNotifier<bool> AM_en = ValueNotifier(true);
+  int lastHourValue = 10;
 
   void notifycallback(e) {
     setState(() {
@@ -171,9 +172,28 @@ class _TimePicker extends State<TimePicker> {
                             //selecteurs heures
                             CircleList(
                                 onSnapUpdate: (index) {
-                                  startSelected.value
-                                      ? start_hours.value = (index + 10) % 12
-                                      : end_hours.value = (index + 10) % 12;
+                                  if (startSelected.value) {
+                                    lastHourValue = start_hours.value;
+                                    start_hours.value = (index + 10) % 12;
+                                    if (lastHourValue == 11 &&
+                                        start_hours.value == 0) {
+                                      AM_st.value = false;
+                                    } else if (lastHourValue == 0 &&
+                                        start_hours.value == 11) {
+                                      AM_st.value = true;
+                                    }
+                                  } else {
+                                    lastHourValue = end_hours.value;
+                                    end_hours.value = (index + 10) % 12;
+                                    if (lastHourValue == 11 &&
+                                        end_hours.value == 0) {
+                                      AM_en.value = false;
+                                    } else if (lastHourValue == 0 &&
+                                        end_hours.value == 11) {
+                                      AM_en.value = true;
+                                    }
+                                  }
+
                                   return null;
                                 },
                                 snapping: 12,
@@ -322,7 +342,9 @@ class _TimePicker extends State<TimePicker> {
                                                       final int en_min =
                                                           (end_minutes.value);
                                                       return Text(
-                                                        "$en_min",
+                                                        en_min < 10
+                                                            ? "0$en_min"
+                                                            : "$en_min",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -473,7 +495,9 @@ class _TimePicker extends State<TimePicker> {
                                                       final int st_min =
                                                           (start_minutes.value);
                                                       return Text(
-                                                        "$st_min",
+                                                        st_min < 10
+                                                            ? "0$st_min"
+                                                            : "$st_min",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

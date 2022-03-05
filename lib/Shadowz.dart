@@ -49,41 +49,36 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
                 aspectRatio: 9 / 16,
                 // Laisse un espace au bord de la carte
                 child: Card(
-                    color: Colors.black,
-                    elevation: 2.0,
                     margin:
-                        EdgeInsets.all(MediaQuery.of(context).size.width / 100),
-                    child: Card(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.width / 100),
-                        child: Stack(key: UniqueKey(), children: [
-                          ...paths.verticalpaths.map((e) {
-                            // ombres
-                            return Transform.translate(
-                                offset: offset,
-                                child: ClipPath(
-                                    child: Container(
-                                        decoration:
-                                            BoxDecoration(boxShadow: [shadow])),
-                                    clipper: MyClipper(e.svgpath, orientation,
-                                        paths.xScalev, paths.yScalev)));
-                          }).toList(),
-                          ...paths.verticalpaths.map((e) {
-                            // dessins
-                            return ClipPath(
-                                child: Material(
-                                    child: e.clickable
-                                        ? InkWell(
-                                            child: null,
-                                            onTap: () {
-                                              popup(events, e, context);
-                                            })
-                                        : Container(),
-                                    color: e.color),
+                        EdgeInsets.all(MediaQuery.of(context).size.width / 50),
+                    child: Stack(key: UniqueKey(), children: [
+                      ...paths.verticalpaths.map((e) {
+                        // ombres
+                        return Transform.translate(
+                            offset: offset,
+                            child: ClipPath(
+                                child: Container(
+                                    decoration:
+                                        BoxDecoration(boxShadow: [shadow])),
                                 clipper: MyClipper(e.svgpath, orientation,
-                                    paths.xScalev, paths.yScalev));
-                          }).toList()
-                        ])))));
+                                    paths.xScalev, paths.yScalev)));
+                      }).toList(),
+                      ...paths.verticalpaths.map((e) {
+                        // dessins
+                        return ClipPath(
+                            child: Material(
+                                child: e.clickable
+                                    ? InkWell(
+                                        child: null,
+                                        onTap: () {
+                                          popup(events, e, context);
+                                        })
+                                    : Container(),
+                                color: e.color),
+                            clipper: MyClipper(e.svgpath, orientation,
+                                paths.xScalev, paths.yScalev));
+                      }).toList()
+                    ]))));
 
         // paysage
 
@@ -92,39 +87,34 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
             child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Card(
-                    color: Colors.black,
-                    elevation: 2.0,
-                    margin: EdgeInsets.all(
-                        MediaQuery.of(context).size.height / 100),
-                    child: Card(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.height / 100),
-                        child: Stack(key: UniqueKey(), children: [
-                          ...paths.horizontalpaths.map((e) {
-                            return Transform.translate(
-                                offset: offset,
-                                child: ClipPath(
-                                    child: Container(
-                                        decoration:
-                                            BoxDecoration(boxShadow: [shadow])),
-                                    clipper: MyClipper(e.svgpath, orientation,
-                                        paths.xScaleh, paths.yScaleh)));
-                          }).toList(),
-                          ...paths.horizontalpaths.map((e) {
-                            return ClipPath(
-                                child: Material(
-                                    child: e.clickable
-                                        ? InkWell(
-                                            child: null,
-                                            onTap: () {
-                                              popup(events, e, context);
-                                            })
-                                        : Container(),
-                                    color: e.color),
+                    margin:
+                        EdgeInsets.all(MediaQuery.of(context).size.height / 50),
+                    child: Stack(key: UniqueKey(), children: [
+                      ...paths.horizontalpaths.map((e) {
+                        return Transform.translate(
+                            offset: offset,
+                            child: ClipPath(
+                                child: Container(
+                                    decoration:
+                                        BoxDecoration(boxShadow: [shadow])),
                                 clipper: MyClipper(e.svgpath, orientation,
-                                    paths.xScaleh, paths.yScaleh));
-                          }).toList()
-                        ])))));
+                                    paths.xScaleh, paths.yScaleh)));
+                      }).toList(),
+                      ...paths.horizontalpaths.map((e) {
+                        return ClipPath(
+                            child: Material(
+                                child: e.clickable
+                                    ? InkWell(
+                                        child: null,
+                                        onTap: () {
+                                          popup(events, e, context);
+                                        })
+                                    : Container(),
+                                color: e.color),
+                            clipper: MyClipper(e.svgpath, orientation,
+                                paths.xScaleh, paths.yScaleh));
+                      }).toList()
+                    ]))));
       }
     });
   }

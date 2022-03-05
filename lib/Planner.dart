@@ -81,7 +81,6 @@ class _Plan extends State<Plan> {
                           ))),
             ]),
           ),
-          Container(height: 50.0),
         ])),
       ),
       SlidingUpPanel(

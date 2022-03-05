@@ -34,7 +34,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
       SizedBox(
           height: 40,
           child: Container(
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.secondary,
               child: InkWell(onTap: () {
                 callback();
               }))),

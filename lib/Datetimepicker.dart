@@ -308,41 +308,34 @@ class _TimePicker extends State<TimePicker> {
                                           child: Row(children: [
                                             Expanded(
                                               flex: 2,
-                                              child: Container(
-                                                child: FittedBox(
-                                                  child:
-                                                      ValueListenableBuilder2(
-                                                    valuelistenable1: end_hours,
-                                                    valuelistenable2: AM_en,
-                                                    builder: (context, value1,
-                                                        value2, child) {
-                                                      int en_hours = (AM_en
-                                                              .value
-                                                          ? end_hours.value
-                                                          : end_hours.value +
-                                                              12);
-                                                      return Text(
-                                                        en_hours < 10
-                                                            ? "0$en_hours"
-                                                            : "$en_hours",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: startSelected
-                                                                  .value
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onTertiaryContainer
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onSecondaryContainer,
-                                                          fontSize: 90,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
+                                              child: FittedBox(
+                                                child: ValueListenableBuilder2(
+                                                  valuelistenable1: end_hours,
+                                                  valuelistenable2: AM_en,
+                                                  builder: (context, value1,
+                                                      value2, child) {
+                                                    int en_hours = (AM_en.value
+                                                        ? end_hours.value
+                                                        : end_hours.value + 12);
+                                                    return Text(
+                                                      en_hours < 10
+                                                          ? "0$en_hours"
+                                                          : "$en_hours",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: startSelected
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .onTertiaryContainer
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .onSecondaryContainer,
+                                                        fontSize: 90,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                             ),
@@ -366,37 +359,32 @@ class _TimePicker extends State<TimePicker> {
                                             ),
                                             Expanded(
                                               flex: 2,
-                                              child: Container(
-                                                child: FittedBox(
-                                                  child: ValueListenableBuilder(
-                                                    valueListenable:
-                                                        end_minutes,
-                                                    builder: (context, value,
-                                                        child) {
-                                                      final int en_min =
-                                                          (end_minutes.value);
-                                                      return Text(
-                                                        en_min < 10
-                                                            ? "0$en_min"
-                                                            : "$en_min",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: startSelected
-                                                                  .value
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onTertiaryContainer
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onSecondaryContainer,
-                                                          fontSize: 90,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
+                                              child: FittedBox(
+                                                child: ValueListenableBuilder(
+                                                  valueListenable: end_minutes,
+                                                  builder:
+                                                      (context, value, child) {
+                                                    final int en_min =
+                                                        (end_minutes.value);
+                                                    return Text(
+                                                      en_min < 10
+                                                          ? "0$en_min"
+                                                          : "$en_min",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: startSelected
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .onTertiaryContainer
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .onSecondaryContainer,
+                                                        fontSize: 90,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                             ),
@@ -471,42 +459,35 @@ class _TimePicker extends State<TimePicker> {
                                           child: Row(children: [
                                             Expanded(
                                               flex: 2,
-                                              child: Container(
-                                                child: FittedBox(
-                                                  child:
-                                                      ValueListenableBuilder2(
-                                                    valuelistenable1:
-                                                        start_hours,
-                                                    valuelistenable2: AM_st,
-                                                    builder: (context, value1,
-                                                        value2, child) {
-                                                      int st_hours = (AM_st
-                                                              .value
-                                                          ? start_hours.value
-                                                          : start_hours.value +
-                                                              12);
-                                                      return Text(
-                                                        st_hours < 10
-                                                            ? "0$st_hours"
-                                                            : "$st_hours",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: startSelected
-                                                                  .value
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onSecondaryContainer
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onTertiaryContainer,
-                                                          fontSize: 90,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
+                                              child: FittedBox(
+                                                child: ValueListenableBuilder2(
+                                                  valuelistenable1: start_hours,
+                                                  valuelistenable2: AM_st,
+                                                  builder: (context, value1,
+                                                      value2, child) {
+                                                    int st_hours = (AM_st.value
+                                                        ? start_hours.value
+                                                        : start_hours.value +
+                                                            12);
+                                                    return Text(
+                                                      st_hours < 10
+                                                          ? "0$st_hours"
+                                                          : "$st_hours",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: startSelected
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .onSecondaryContainer
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .onTertiaryContainer,
+                                                        fontSize: 90,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                             ),

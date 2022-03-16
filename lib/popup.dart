@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:learn/requests.dart';
 
 void popup(List<EventCalendar> events, Room salle, BuildContext context) {
-  print(salle.name + " - " + salle.id);
   String dispo = "Aucune Information";
   Color dispoColor = Colors.white;
   if (isThereACourseNow(events, salle)) {

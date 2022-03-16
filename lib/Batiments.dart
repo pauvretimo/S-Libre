@@ -15,17 +15,15 @@ class Batiment extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Batiment> createState() => _Batiment(events, batiment, pagecontroller);
+  State<Batiment> createState() => _Batiment();
 }
 
 class _Batiment extends State<Batiment> {
-  List<EventCalendar> events;
-  Bat batiment;
-  PageController pagecontroller;
-  @override
-  _Batiment(this.events, this.batiment, this.pagecontroller);
   @override
   Widget build(BuildContext context) {
+    List<EventCalendar> events = widget.events;
+    Bat batiment = widget.batiment;
+    PageController pagecontroller = widget.pagecontroller;
     return PageView(
       controller: pagecontroller,
       physics: const BouncingScrollPhysics(),
@@ -33,12 +31,6 @@ class _Batiment extends State<Batiment> {
         batiment.nb_floors,
         (index) {
           return ClipShadowedPathclicker(
-              // gestion de l'ombre
-              shadow: const BoxShadow(
-                  offset: Offset(2.5, 2.5),
-                  blurRadius: 2,
-                  spreadRadius: 4,
-                  color: Color(0x4A000000)),
               // gestion de l'étage
               paths: batiment.bat[index],
               events: events);

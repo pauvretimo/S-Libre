@@ -297,7 +297,8 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                   separatorBuilder:
                                       (BuildContext context, int index) =>
                                           const VerticalDivider(
-                                    width: 10,
+                                    width: 10.0,
+                                    thickness: 2.0,
                                   ),
                                 ),
                               );
@@ -366,7 +367,8 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                   separatorBuilder:
                                       (BuildContext context, int index) =>
                                           const VerticalDivider(
-                                    width: 10,
+                                    width: 10.0,
+                                    thickness: 2.0,
                                   ),
                                 ),
                               );

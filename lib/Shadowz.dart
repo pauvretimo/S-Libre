@@ -6,36 +6,22 @@ import 'package:learn/requests.dart';
 
 @immutable
 class ClipShadowedPathclicker extends StatefulWidget {
-  final BoxShadow shadow;
   final Paths paths;
   final List<EventCalendar> events;
 
   ClipShadowedPathclicker({
-    required this.shadow,
     required this.paths,
     required this.events,
   });
   @override
-  State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker(
-        shadow.offset,
-        BoxShadow(
-            blurRadius: shadow.blurRadius,
-            spreadRadius: shadow.spreadRadius,
-            color: shadow.color,
-            blurStyle: shadow.blurStyle),
-        paths,
-        events,
-      );
+  State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker();
 }
 
 class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
-  BoxShadow shadow;
-  Offset offset;
-  Paths paths;
-  List<EventCalendar> events;
-  _ClipShadowedPathclicker(this.offset, this.shadow, this.paths, this.events);
+  _ClipShadowedPathclicker();
   @override
   Widget build(BuildContext context) {
+    Paths paths = widget.paths;
     // on gère l'orientation du plan
 
     return OrientationBuilder(builder: (context, orientation) {
@@ -44,77 +30,108 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
       if (orientation == Orientation.portrait) {
         // le center permet d'empêcher le widget PageView de casser le ratio fixe du AspectRatio
         return Center(
-            // fixe le ratio des cartes
-            child: AspectRatio(
-                aspectRatio: 9 / 16,
-                // Laisse un espace au bord de la carte
-                child: Card(
-                    margin:
-                        EdgeInsets.all(MediaQuery.of(context).size.width / 50),
-                    child: Stack(key: UniqueKey(), children: [
-                      ...paths.verticalpaths.map((e) {
-                        // ombres
-                        return Transform.translate(
-                            offset: offset,
-                            child: ClipPath(
-                                child: Container(
-                                    decoration:
-                                        BoxDecoration(boxShadow: [shadow])),
-                                clipper: MyClipper(e.svgpath, orientation,
-                                    paths.xScalev, paths.yScalev)));
-                      }).toList(),
-                      ...paths.verticalpaths.map((e) {
-                        // dessins
-                        return ClipPath(
-                            child: Material(
-                                child: e.clickable
-                                    ? InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          popup(events, e, context);
-                                        })
-                                    : Container(),
-                                color: e.color),
-                            clipper: MyClipper(e.svgpath, orientation,
-                                paths.xScalev, paths.yScalev));
-                      }).toList()
-                    ]))));
+          // fixe le ratio des cartes
+          child: AspectRatio(
+            aspectRatio: 9 / 16,
+            // Laisse un espace au bord de la carte
+            child: Card(
+              child: Stack(
+                key: UniqueKey(),
+                children: [
+                  ...paths.verticalpaths.map((e) {
+                    // ombres
+                    return Transform.translate(
+                      offset: const Offset(2.5, 2.5),
+                      child: ClipPath(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 2,
+                                spreadRadius: 4,
+                                color: Color(0x4A000000),
+                              ),
+                            ],
+                          ),
+                        ),
+                        clipper: MyClipper(e.svgpath, orientation,
+                            paths.xScalev, paths.yScalev),
+                      ),
+                    );
+                  }).toList(),
+                  ...paths.verticalpaths.map(
+                    (e) {
+                      // dessins
+                      return ClipPath(
+                        child: Material(
+                            child: e.clickable
+                                ? InkWell(
+                                    child: null,
+                                    onTap: () {
+                                      popup(widget.events, e, context);
+                                    })
+                                : Container(),
+                            color: e.color),
+                        clipper: MyClipper(e.svgpath, orientation,
+                            paths.xScalev, paths.yScalev),
+                      );
+                    },
+                  ).toList()
+                ],
+              ),
+            ),
+          ),
+        );
 
         // paysage
 
       } else {
         return Center(
-            child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Card(
-                    margin:
-                        EdgeInsets.all(MediaQuery.of(context).size.height / 50),
-                    child: Stack(key: UniqueKey(), children: [
-                      ...paths.horizontalpaths.map((e) {
-                        return Transform.translate(
-                            offset: offset,
-                            child: ClipPath(
-                                child: Container(
-                                    decoration:
-                                        BoxDecoration(boxShadow: [shadow])),
-                                clipper: MyClipper(e.svgpath, orientation,
-                                    paths.xScaleh, paths.yScaleh)));
-                      }).toList(),
-                      ...paths.horizontalpaths.map((e) {
-                        return ClipPath(
-                            child: Material(
-                                child: e.clickable
-                                    ? InkWell(
-                                        child: null,
-                                        onTap: () {
-                                          popup(events, e, context);
-                                        })
-                                    : Container(),
-                                color: e.color),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Card(
+              margin: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
+              child: Stack(
+                key: UniqueKey(),
+                children: [
+                  ...paths.horizontalpaths.map((e) {
+                    return Transform.translate(
+                        offset: const Offset(2.5, 2.5),
+                        child: ClipPath(
+                            child: Container(
+                                decoration: const BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                blurRadius: 2,
+                                spreadRadius: 4,
+                                color: Color(0x4A000000),
+                              ),
+                            ])),
                             clipper: MyClipper(e.svgpath, orientation,
-                                paths.xScaleh, paths.yScaleh));
-                      }).toList()
-                    ]))));
+                                paths.xScaleh, paths.yScaleh)));
+                  }).toList(),
+                  ...paths.horizontalpaths.map(
+                    (e) {
+                      return ClipPath(
+                        child: Material(
+                            child: e.clickable
+                                ? InkWell(
+                                    child: null,
+                                    onTap: () {
+                                      popup(widget.events, e, context);
+                                    },
+                                  )
+                                : Container(),
+                            color: e.color),
+                        clipper: MyClipper(e.svgpath, orientation,
+                            paths.xScaleh, paths.yScaleh),
+                      );
+                    },
+                  ).toList()
+                ],
+              ),
+            ),
+          ),
+        );
       }
     });
   }

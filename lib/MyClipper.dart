@@ -15,12 +15,12 @@ class MyClipper extends CustomClipper<Path> {
     final Matrix4 matrix4 = Matrix4.identity();
 
     if (orientation == Orientation.portrait) {
-      var offset = Offset(40, 15);
+      var offset = const Offset(40, 15);
       matrix4.scale(xScale, yScale);
       final path = parseSvgPath(str).transform(matrix4.storage).shift(offset);
       return path;
     } else {
-      var offset = Offset(30, 50);
+      var offset = const Offset(30, 50);
       matrix4.scale(xScale, yScale);
       final path = parseSvgPath(str).transform(matrix4.storage).shift(offset);
       return path;

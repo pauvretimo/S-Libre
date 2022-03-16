@@ -33,6 +33,7 @@ dependencies:
   svg_path_parser: ^1.1.1
   swipe: ^0.0.1
   sliding_up_panel: ^2.0.0+1
+  intl: ^0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -103,4 +104,8 @@ fonts:
    - family: Dongle
      fonts:
        - asset: /lib/font/Dongle-Regular.ttf
+         weight: 400
+   - family: Lato
+     fonts:
+       - asset: /lib/font/Lato-Regular.ttf
          weight: 400

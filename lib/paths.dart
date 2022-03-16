@@ -15,6 +15,7 @@ class Room {
 }
 
 class Paths {
+  String name;
   List<Room> verticalpaths;
   List<Room> horizontalpaths;
   int xScalev;
@@ -22,8 +23,8 @@ class Paths {
   int xScaleh;
   int yScaleh;
 
-  Paths(this.verticalpaths, this.horizontalpaths, this.xScalev, this.yScalev,
-      this.xScaleh, this.yScaleh);
+  Paths(this.name, this.verticalpaths, this.horizontalpaths, this.xScalev,
+      this.yScalev, this.xScaleh, this.yScaleh);
 }
 
 //Création des class path par étage
@@ -31,6 +32,7 @@ class Paths {
 //ENSIBS Vannes RDC
 
 Paths ENSIBSVannesRDCpaths = Paths(
+    "Rez de Chaussé",
     pathslistENSIBSVannesRDCv
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -47,6 +49,7 @@ Paths ENSIBSVannesRDCpaths = Paths(
 //ENSIBS Vannes Etage 1
 
 Paths ENSIBSVannesE1paths = Paths(
+    "Etage 1",
     pathslistENSIBSVannesE1v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -63,6 +66,7 @@ Paths ENSIBSVannesE1paths = Paths(
 //ENSIBS Lorient Etage 1
 
 Paths ENSIBSLorientE1paths = Paths(
+    "Etage 1",
     pathslistENSIBSLorientE1v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -77,6 +81,7 @@ Paths ENSIBSLorientE1paths = Paths(
     2000);
 
 Paths ENSIBSLorientE2paths = Paths(
+    "Etage 2",
     pathslistENSIBSLorientE2v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -93,14 +98,16 @@ Paths ENSIBSLorientE2paths = Paths(
 //Class bat pour les batiments
 
 class Bat {
+  String name;
   List<Paths> bat;
   int nb_floors;
-  Bat(this.bat, this.nb_floors);
+  Bat(this.bat, this.nb_floors, this.name);
 }
 
-Bat ENSIBS_Vannes = Bat([ENSIBSVannesRDCpaths, ENSIBSVannesE1paths], 2);
+Bat ENSIBS_Vannes =
+    Bat([ENSIBSVannesRDCpaths, ENSIBSVannesE1paths], 2, "ENSIBS Vannes");
 
-Bat ENSIBS_Lorient = Bat([ENSIBSLorientE1paths, ENSIBSLorientE2paths], 2);
+Bat ENSIBS_Lorient =
+    Bat([ENSIBSLorientE1paths, ENSIBSLorientE2paths], 2, "ENSIBS Lorient");
 
 List<Bat> listbat = [ENSIBS_Vannes, ENSIBS_Lorient];
-List<String> listbatname = ["ENSIBS Vannes", "ENSIBS Lorient"];

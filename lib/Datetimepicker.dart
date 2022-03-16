@@ -1,10 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:learn/circle_list.dart';
 import 'dart:math' as Math;
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:learn/Globals.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({Key? key}) : super(key: key);
+  final PanelController controller;
+  const TimePicker({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TimePicker();
@@ -19,6 +21,27 @@ class _TimePicker extends State<TimePicker> {
   ValueNotifier<bool> AM_st = ValueNotifier(true);
   ValueNotifier<bool> AM_en = ValueNotifier(true);
   int lastHourValue = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    start_hours.addListener(() {
+      AM_st.value
+          ? kStartHour.value = start_hours.value
+          : kStartHour.value = start_hours.value + 12;
+    });
+    start_minutes.addListener(() {
+      kStartMin.value = end_minutes.value;
+    });
+    end_hours.addListener(() {
+      AM_en.value
+          ? kEndHour.value = end_hours.value
+          : kEndHour.value = end_hours.value + 12;
+    });
+    end_minutes.addListener(() {
+      kEndMin.value = end_minutes.value;
+    });
+  }
 
   void notifycallback(e) {
     setState(() {
@@ -251,6 +274,17 @@ class _TimePicker extends State<TimePicker> {
                                             right: 10,
                                           ),
                                           decoration: BoxDecoration(
+                                            boxShadow: startSelected.value
+                                                ? null
+                                                : [
+                                                    BoxShadow(
+                                                        offset: const Offset(
+                                                            0.8, 1.0),
+                                                        blurRadius: 2,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .shadow)
+                                                  ],
                                             color: startSelected.value
                                                 ? Theme.of(context)
                                                     .colorScheme
@@ -262,7 +296,7 @@ class _TimePicker extends State<TimePicker> {
                                                 color: startSelected.value
                                                     ? Theme.of(context)
                                                         .colorScheme
-                                                        .onBackground
+                                                        .onTertiaryContainer
                                                     : Theme.of(context)
                                                         .colorScheme
                                                         .onSecondaryContainer,
@@ -299,7 +333,7 @@ class _TimePicker extends State<TimePicker> {
                                                               ? Theme.of(
                                                                       context)
                                                                   .colorScheme
-                                                                  .onBackground
+                                                                  .onTertiaryContainer
                                                               : Theme.of(
                                                                       context)
                                                                   .colorScheme
@@ -321,7 +355,7 @@ class _TimePicker extends State<TimePicker> {
                                                     color: startSelected.value
                                                         ? Theme.of(context)
                                                             .colorScheme
-                                                            .onBackground
+                                                            .onTertiaryContainer
                                                         : Theme.of(context)
                                                             .colorScheme
                                                             .onSecondaryContainer,
@@ -353,7 +387,7 @@ class _TimePicker extends State<TimePicker> {
                                                               ? Theme.of(
                                                                       context)
                                                                   .colorScheme
-                                                                  .onBackground
+                                                                  .onTertiaryContainer
                                                               : Theme.of(
                                                                       context)
                                                                   .colorScheme
@@ -403,6 +437,17 @@ class _TimePicker extends State<TimePicker> {
                                             right: 10,
                                           ),
                                           decoration: BoxDecoration(
+                                            boxShadow: startSelected.value
+                                                ? [
+                                                    BoxShadow(
+                                                        offset: const Offset(
+                                                            0.8, 1.0),
+                                                        blurRadius: 2,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .shadow)
+                                                  ]
+                                                : null,
                                             color: startSelected.value
                                                 ? Theme.of(context)
                                                     .colorScheme
@@ -417,7 +462,7 @@ class _TimePicker extends State<TimePicker> {
                                                         .onSecondaryContainer
                                                     : Theme.of(context)
                                                         .colorScheme
-                                                        .onBackground,
+                                                        .onTertiaryContainer,
                                                 width: 4.0),
                                             borderRadius:
                                                 const BorderRadius.all(
@@ -456,7 +501,7 @@ class _TimePicker extends State<TimePicker> {
                                                               : Theme.of(
                                                                       context)
                                                                   .colorScheme
-                                                                  .onBackground,
+                                                                  .onTertiaryContainer,
                                                           fontSize: 90,
                                                         ),
                                                       );
@@ -477,7 +522,7 @@ class _TimePicker extends State<TimePicker> {
                                                             .onSecondaryContainer
                                                         : Theme.of(context)
                                                             .colorScheme
-                                                            .onBackground,
+                                                            .onTertiaryContainer,
                                                     fontSize: 70,
                                                   ),
                                                 ),
@@ -485,37 +530,33 @@ class _TimePicker extends State<TimePicker> {
                                             ),
                                             Expanded(
                                               flex: 2,
-                                              child: Container(
-                                                child: FittedBox(
-                                                  child: ValueListenableBuilder(
-                                                    valueListenable:
-                                                        start_minutes,
-                                                    builder: (context, value,
-                                                        child) {
-                                                      final int st_min =
-                                                          (start_minutes.value);
-                                                      return Text(
-                                                        st_min < 10
-                                                            ? "0$st_min"
-                                                            : "$st_min",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: startSelected
-                                                                  .value
-                                                              ? Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onSecondaryContainer
-                                                              : Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onBackground,
-                                                          fontSize: 90,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
+                                              child: FittedBox(
+                                                child: ValueListenableBuilder(
+                                                  valueListenable:
+                                                      start_minutes,
+                                                  builder:
+                                                      (context, value, child) {
+                                                    final int st_min =
+                                                        (start_minutes.value);
+                                                    return Text(
+                                                      st_min < 10
+                                                          ? "0$st_min"
+                                                          : "$st_min",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: startSelected
+                                                                .value
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .onSecondaryContainer
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .onTertiaryContainer,
+                                                        fontSize: 90,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                             ),
@@ -559,6 +600,15 @@ class _TimePicker extends State<TimePicker> {
                             child: Container(
                               padding: const EdgeInsets.all(3),
                               decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.background,
+                                boxShadow: [
+                                  BoxShadow(
+                                      spreadRadius: -3.0,
+                                      offset: const Offset(0.8, 1.0),
+                                      blurRadius: 2,
+                                      color:
+                                          Theme.of(context).colorScheme.shadow)
+                                ],
                                 border: Border.all(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -585,6 +635,7 @@ class _TimePicker extends State<TimePicker> {
                                             Text(
                                               "AM",
                                               style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
                                                   color: startSelected.value
                                                       ? AM_st.value
                                                           ? Theme.of(context)
@@ -605,6 +656,7 @@ class _TimePicker extends State<TimePicker> {
                                             Text(
                                               " / ",
                                               style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .onBackground,
@@ -613,6 +665,7 @@ class _TimePicker extends State<TimePicker> {
                                             Text(
                                               "PM",
                                               style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
                                                   color: startSelected.value
                                                       ? AM_st.value
                                                           ? Theme.of(context)
@@ -639,8 +692,45 @@ class _TimePicker extends State<TimePicker> {
                           ),
                           const Expanded(
                             child: SizedBox(),
-                            flex: 20,
-                          )
+                            flex: 15,
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: InkWell(
+                              onTap: () => widget.controller.close(),
+                              customBorder: Border.all(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                width: 3.0,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              child: FittedBox(
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(
+                                    shadows: [
+                                      Shadow(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .shadow,
+                                        offset: const Offset(0.8, 1.0),
+                                        blurRadius: 0.2,
+                                      )
+                                    ],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
                         ],
                       ),
                     ),
@@ -656,68 +746,4 @@ class _TimePicker extends State<TimePicker> {
       ),
     );
   }
-}
-
-class ValueListenableBuilder2<A, B> extends StatelessWidget {
-  const ValueListenableBuilder2({
-    required this.valuelistenable1,
-    required this.valuelistenable2,
-    Key? key,
-    required this.builder,
-    this.child,
-  }) : super(key: key);
-
-  final ValueListenable<A> valuelistenable1;
-  final ValueListenable<B> valuelistenable2;
-  final Widget? child;
-  final Widget Function(BuildContext context, A a, B b, Widget? child) builder;
-
-  @override
-  Widget build(BuildContext context) => ValueListenableBuilder<A>(
-        valueListenable: valuelistenable1,
-        builder: (_, a, __) {
-          return ValueListenableBuilder<B>(
-            valueListenable: valuelistenable2,
-            builder: (context, b, __) {
-              return builder(context, a, b, child);
-            },
-          );
-        },
-      );
-}
-
-class ValueListenableBuilder3<A, B, C> extends StatelessWidget {
-  const ValueListenableBuilder3({
-    required this.valuelistenable1,
-    required this.valuelistenable2,
-    required this.valuelistenable3,
-    Key? key,
-    required this.builder,
-    this.child,
-  }) : super(key: key);
-
-  final ValueListenable<A> valuelistenable1;
-  final ValueListenable<B> valuelistenable2;
-  final ValueListenable<C> valuelistenable3;
-  final Widget? child;
-  final Widget Function(BuildContext context, A a, B b, C c, Widget? child)
-      builder;
-
-  @override
-  Widget build(BuildContext context) => ValueListenableBuilder<A>(
-        valueListenable: valuelistenable1,
-        builder: (_, a, __) {
-          return ValueListenableBuilder<B>(
-            valueListenable: valuelistenable2,
-            builder: (_, b, __) {
-              return ValueListenableBuilder<C>(
-                valueListenable: valuelistenable3,
-                builder: (context, c, __) {
-                  return builder(context, a, b, c, child);
-                },
-              );
-            },
-          );
-        },
-      );
 }

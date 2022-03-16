@@ -12,14 +12,10 @@ class Plan extends StatefulWidget {
   const Plan({Key? key, required this.events}) : super(key: key);
 
   @override
-  State<Plan> createState() => _Plan(events: events);
+  State<Plan> createState() => _Plan();
 }
 
 class _Plan extends State<Plan> {
-  final List<EventCalendar> events;
-  @override
-  _Plan({required this.events});
-
   @override
   void initState() {
     super.initState();
@@ -102,7 +98,7 @@ class _Plan extends State<Plan> {
                       children: List.generate(
                         listbat.length,
                         (index) => Batiment(
-                            events: events,
+                            events: widget.events,
                             batiment: listbat[index],
                             pagecontroller: pageController),
                       ),

@@ -6,6 +6,7 @@ import 'package:learn/Batiments.dart';
 import 'package:learn/bottommenu.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:learn/Datetimepicker.dart';
+import 'package:learn/SettingsMenu.dart';
 
 class Plan extends StatefulWidget {
   final List<EventCalendar> events;
@@ -26,13 +27,12 @@ class _Plan extends State<Plan> {
 
       batController.addListener(
         () {
-          batiment.value = listbat[batController.page!.toInt()];
+          kSelectedBat.value = listbat[batController.page!.toInt()];
         },
       );
     });
   }
 
-  ValueNotifier<Bat> batiment = ValueNotifier(ENSIBS_Vannes);
   PageController pageController = PageController(
     initialPage: 0,
     keepPage: true,
@@ -47,6 +47,7 @@ class _Plan extends State<Plan> {
   bool elevation = true;
   ValueNotifier<double> pos = ValueNotifier<double>(0.0);
   final PanelController _pc = PanelController();
+  final PanelController _sc = PanelController();
 
 // Callbacks
   void scrollcallback() {
@@ -77,11 +78,7 @@ class _Plan extends State<Plan> {
           renderPanelSheet: false,
           minHeight: 50.0,
           maxHeight: 4 * MediaQuery.of(context).size.height / 5,
-          panel: bottomDrawer(
-            pos,
-            scrollcallback,
-            batCallback,
-          ),
+          panel: bottomDrawer(pos, scrollcallback, batCallback, _sc),
           body: (Column(
             children: [
               Expanded(
@@ -127,6 +124,18 @@ class _Plan extends State<Plan> {
               ),
             ],
           ),
+        ),
+        SlidingUpPanel(
+          margin: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width / 12.0,
+              right: MediaQuery.of(context).size.width / 12.0),
+          renderPanelSheet: false,
+          controller: _sc,
+          isDraggable: false,
+          borderRadius: const BorderRadius.all(Radius.circular(35)),
+          minHeight: 0.0,
+          maxHeight: MediaQuery.of(context).size.height,
+          panel: SettingMenu(closer: _sc),
         ),
       ],
     );

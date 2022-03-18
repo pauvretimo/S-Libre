@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:learn/paths.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Valeurs des heures et minutes sélectionnees
 ValueNotifier<int> kStartHour = ValueNotifier(10);
@@ -13,6 +14,9 @@ ValueNotifier<bool> kAM_en = ValueNotifier(true);
 
 // Le jour selectionne
 ValueNotifier<int> kSelectedDay = ValueNotifier(0);
+
+// Le batiment selectionne
+ValueNotifier<Bat> kSelectedBat = ValueNotifier(ENSIBS_Vannes);
 
 // L'etage selectionne 0 -> n
 ValueNotifier<int> kSelectedFloor = ValueNotifier(0);
@@ -27,8 +31,14 @@ const Color kSalleLibre = Color(0xFF39FF14);
 const Color kSalleInaccessible = Color(0xFF828282);
 const Color kCouloirs = Color(0xFF64C8EF);
 
+// Theme de l'app
+ValueNotifier<ThemeMode> kThemedelapp = ValueNotifier(ThemeMode.system);
+
 // liste des batiments de l'app
 List<Bat> listbat = [ENSIBS_Vannes, ENSIBS_Lorient];
+
+// refresh the app
+ValueNotifier<bool> kRefreshing = ValueNotifier(false);
 
 // classes permettants de rebuild en fonction de plusieurs ValueNotifier
 class ValueListenableBuilder2<A, B> extends StatelessWidget {

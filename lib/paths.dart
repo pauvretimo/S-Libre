@@ -135,3 +135,5 @@ Bat ENSIBS_Vannes =
 
 Bat ENSIBS_Lorient =
     Bat([ENSIBSLorientE1paths, ENSIBSLorientE2paths], 2, "ENSIBS Lorient");
+
+List<Bat> listBat = [ENSIBS_Vannes, ENSIBS_Lorient];

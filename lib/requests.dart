@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:learn/Globals.dart';
 
 Future<List<EventCalendar>> getCalendar() async {
   // Get calendar file
@@ -38,7 +39,7 @@ Future<List<EventCalendar>> getCalendar() async {
       events.add(event);
     }
   }
-
+  kRefreshing.value = false;
   return events;
 }
 

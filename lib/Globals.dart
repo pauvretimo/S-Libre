@@ -8,6 +8,8 @@ ValueNotifier<int> kStartHour = ValueNotifier(10);
 ValueNotifier<int> kStartMin = ValueNotifier(10);
 ValueNotifier<int> kEndHour = ValueNotifier(10);
 ValueNotifier<int> kEndMin = ValueNotifier(10);
+ValueNotifier<bool> kAM_st = ValueNotifier(true);
+ValueNotifier<bool> kAM_en = ValueNotifier(true);
 
 // Le jour selectionne
 ValueNotifier<int> kSelectedDay = ValueNotifier(0);

@@ -13,41 +13,8 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePicker extends State<TimePicker> {
-  ValueNotifier<int> start_hours = ValueNotifier(10);
-  ValueNotifier<int> start_minutes = ValueNotifier(10);
-  ValueNotifier<int> end_hours = ValueNotifier(10);
-  ValueNotifier<int> end_minutes = ValueNotifier(10);
   ValueNotifier<bool> startSelected = ValueNotifier(true);
-  ValueNotifier<bool> AM_st = ValueNotifier(true);
-  ValueNotifier<bool> AM_en = ValueNotifier(true);
   int lastHourValue = 10;
-
-  @override
-  void initState() {
-    super.initState();
-    start_hours.addListener(() {
-      AM_st.value
-          ? kStartHour.value = start_hours.value
-          : kStartHour.value = start_hours.value + 12;
-    });
-    start_minutes.addListener(() {
-      kStartMin.value = end_minutes.value;
-    });
-    end_hours.addListener(() {
-      AM_en.value
-          ? kEndHour.value = end_hours.value
-          : kEndHour.value = end_hours.value + 12;
-    });
-    end_minutes.addListener(() {
-      kEndMin.value = end_minutes.value;
-    });
-  }
-
-  void notifycallback(e) {
-    setState(() {
-      start_hours = e;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,10 +123,8 @@ class _TimePicker extends State<TimePicker> {
                             CircleList(
                                 onSnapUpdate: (index) {
                                   startSelected.value
-                                      ? start_minutes.value =
-                                          (5 * index + 10) % 60
-                                      : end_minutes.value =
-                                          (5 * index + 10) % 60;
+                                      ? kStartMin.value = (5 * index + 10) % 60
+                                      : kEndMin.value = (5 * index + 10) % 60;
                                   return null;
                                 },
                                 snapping: 12,
@@ -196,24 +161,24 @@ class _TimePicker extends State<TimePicker> {
                             CircleList(
                                 onSnapUpdate: (index) {
                                   if (startSelected.value) {
-                                    lastHourValue = start_hours.value;
-                                    start_hours.value = (index + 10) % 12;
+                                    lastHourValue = kStartHour.value;
+                                    kStartHour.value = (index + 10) % 12;
                                     if (lastHourValue == 11 &&
-                                        start_hours.value == 0) {
-                                      AM_st.value = false;
+                                        kStartHour.value == 0) {
+                                      kAM_st.value = false;
                                     } else if (lastHourValue == 0 &&
-                                        start_hours.value == 11) {
-                                      AM_st.value = true;
+                                        kStartHour.value == 11) {
+                                      kAM_st.value = true;
                                     }
                                   } else {
-                                    lastHourValue = end_hours.value;
-                                    end_hours.value = (index + 10) % 12;
+                                    lastHourValue = kEndHour.value;
+                                    kEndHour.value = (index + 10) % 12;
                                     if (lastHourValue == 11 &&
-                                        end_hours.value == 0) {
-                                      AM_en.value = false;
+                                        kEndHour.value == 0) {
+                                      kAM_en.value = false;
                                     } else if (lastHourValue == 0 &&
-                                        end_hours.value == 11) {
-                                      AM_en.value = true;
+                                        kEndHour.value == 11) {
+                                      kAM_en.value = true;
                                     }
                                   }
 
@@ -310,13 +275,13 @@ class _TimePicker extends State<TimePicker> {
                                               flex: 2,
                                               child: FittedBox(
                                                 child: ValueListenableBuilder2(
-                                                  valuelistenable1: end_hours,
-                                                  valuelistenable2: AM_en,
+                                                  valuelistenable1: kEndHour,
+                                                  valuelistenable2: kAM_en,
                                                   builder: (context, value1,
                                                       value2, child) {
-                                                    int en_hours = (AM_en.value
-                                                        ? end_hours.value
-                                                        : end_hours.value + 12);
+                                                    int en_hours = (kAM_en.value
+                                                        ? kEndHour.value
+                                                        : kEndHour.value + 12);
                                                     return Text(
                                                       en_hours < 10
                                                           ? "0$en_hours"
@@ -361,11 +326,11 @@ class _TimePicker extends State<TimePicker> {
                                               flex: 2,
                                               child: FittedBox(
                                                 child: ValueListenableBuilder(
-                                                  valueListenable: end_minutes,
+                                                  valueListenable: kEndMin,
                                                   builder:
                                                       (context, value, child) {
                                                     final int en_min =
-                                                        (end_minutes.value);
+                                                        (kEndMin.value);
                                                     return Text(
                                                       en_min < 10
                                                           ? "0$en_min"
@@ -461,13 +426,13 @@ class _TimePicker extends State<TimePicker> {
                                               flex: 2,
                                               child: FittedBox(
                                                 child: ValueListenableBuilder2(
-                                                  valuelistenable1: start_hours,
-                                                  valuelistenable2: AM_st,
+                                                  valuelistenable1: kStartHour,
+                                                  valuelistenable2: kAM_st,
                                                   builder: (context, value1,
                                                       value2, child) {
-                                                    int st_hours = (AM_st.value
-                                                        ? start_hours.value
-                                                        : start_hours.value +
+                                                    int st_hours = (kAM_st.value
+                                                        ? kStartHour.value
+                                                        : kStartHour.value +
                                                             12);
                                                     return Text(
                                                       st_hours < 10
@@ -513,12 +478,11 @@ class _TimePicker extends State<TimePicker> {
                                               flex: 2,
                                               child: FittedBox(
                                                 child: ValueListenableBuilder(
-                                                  valueListenable:
-                                                      start_minutes,
+                                                  valueListenable: kStartMin,
                                                   builder:
                                                       (context, value, child) {
                                                     final int st_min =
-                                                        (start_minutes.value);
+                                                        (kStartMin.value);
                                                     return Text(
                                                       st_min < 10
                                                           ? "0$st_min"
@@ -601,13 +565,13 @@ class _TimePicker extends State<TimePicker> {
                               child: GestureDetector(
                                 onTap: () {
                                   startSelected.value
-                                      ? AM_st.value = !AM_st.value
-                                      : AM_en.value = !AM_en.value;
+                                      ? kAM_st.value = !kAM_st.value
+                                      : kAM_en.value = !kAM_en.value;
                                 },
                                 child: FittedBox(
                                   child: ValueListenableBuilder3(
-                                      valuelistenable1: AM_st,
-                                      valuelistenable2: AM_en,
+                                      valuelistenable1: kAM_st,
+                                      valuelistenable2: kAM_en,
                                       valuelistenable3: startSelected,
                                       builder: (context, value1, value2, value3,
                                           child) {
@@ -618,14 +582,14 @@ class _TimePicker extends State<TimePicker> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: startSelected.value
-                                                      ? AM_st.value
+                                                      ? kAM_st.value
                                                           ? Theme.of(context)
                                                               .colorScheme
                                                               .onSecondary
                                                           : Theme.of(context)
                                                               .colorScheme
                                                               .onBackground
-                                                      : AM_en.value
+                                                      : kAM_en.value
                                                           ? Theme.of(context)
                                                               .colorScheme
                                                               .onSecondary
@@ -648,14 +612,14 @@ class _TimePicker extends State<TimePicker> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: startSelected.value
-                                                      ? AM_st.value
+                                                      ? kAM_st.value
                                                           ? Theme.of(context)
                                                               .colorScheme
                                                               .onBackground
                                                           : Theme.of(context)
                                                               .colorScheme
                                                               .onSecondary
-                                                      : AM_en.value
+                                                      : kAM_en.value
                                                           ? Theme.of(context)
                                                               .colorScheme
                                                               .onBackground

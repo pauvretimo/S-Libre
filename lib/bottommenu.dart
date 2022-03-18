@@ -23,6 +23,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
   final ScrollController sc = ScrollController();
   ValueNotifier<double> pos;
   ValueNotifier<Bat> bat = ValueNotifier(ENSIBS_Vannes);
+  ValueNotifier<bool> isSwitched = ValueNotifier(false);
   late List<String> days;
   List<String> daysName = [
     "Monday",
@@ -160,68 +161,145 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                         const SizedBox(
                           height: 5.0,
                         ),
-                        Container(
-                          height: 40.0,
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                          decoration: BoxDecoration(
-                            color: const Color(0x7AFFFFFF),
-                            border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).colorScheme.tertiary),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: FittedBox(
-                            child: InkWell(
-                              onTap: () {
-                                callback();
-                              },
-                              child: ValueListenableBuilder2(
-                                valuelistenable1: kStartHour,
-                                valuelistenable2: kStartMin,
-                                builder: (context, value1, value2, child) {
-                                  return Text(
-                                    'De $value1 h $value2',
-                                    textAlign: TextAlign.center,
-                                  );
-                                },
+                        SizedBox(
+                          height: 100,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: RotatedBox(
+                                  quarterTurns: -1,
+                                  child: Center(
+                                      child: ValueListenableBuilder(
+                                    valueListenable: isSwitched,
+                                    builder: (BuildContext context, bool value,
+                                        Widget? child) {
+                                      return Switch(
+                                        value: isSwitched.value,
+                                        onChanged: (val) {
+                                          isSwitched.value = val;
+                                        },
+                                      );
+                                    },
+                                  )),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        Container(
-                          height: 40.0,
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                          decoration: BoxDecoration(
-                            color: const Color(0x7AFFFFFF),
-                            border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).colorScheme.tertiary),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: FittedBox(
-                            child: InkWell(
-                              onTap: () {
-                                callback();
-                              },
-                              child: ValueListenableBuilder2(
-                                valuelistenable1: kEndHour,
-                                valuelistenable2: kEndMin,
-                                builder: (context, value1, value2, child) {
-                                  return Text(
-                                    'à $value1 h $value2',
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 30.0),
-                                  );
-                                },
+                              Expanded(
+                                flex: 9,
+                                child: ValueListenableBuilder(
+                                  valueListenable: isSwitched,
+                                  builder: (BuildContext context, bool switched,
+                                      Widget? child) {
+                                    return ListView(
+                                      children: [
+                                        Container(
+                                          height: 40.0,
+                                          margin: const EdgeInsets.only(
+                                              left: 1.0, right: 10.0),
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0, right: 5.0),
+                                          decoration: BoxDecoration(
+                                            color: switched
+                                                ? const Color(0x7AFFFFFF)
+                                                : const Color(0x7AAFAFAF),
+                                            border: Border.all(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: FittedBox(
+                                            child: InkWell(
+                                              onTap: () {
+                                                isSwitched.value = true;
+                                                callback();
+                                              },
+                                              child: ValueListenableBuilder2(
+                                                valuelistenable1: kStartHour,
+                                                valuelistenable2: kStartMin,
+                                                builder: (context, value1,
+                                                    value2, child) {
+                                                  int hour = (kAM_st.value
+                                                      ? kStartHour.value
+                                                      : kStartHour.value + 12);
+                                                  return Text(
+                                                    hour < 10
+                                                        ? 'De 0$hour h $value2'
+                                                        : 'De $hour h $value2',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: switched
+                                                            ? null
+                                                            : const Color(
+                                                                0xFF000000),
+                                                        fontSize: 30.0),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Container(
+                                          height: 40.0,
+                                          margin: const EdgeInsets.only(
+                                              left: 1.0, right: 10.0),
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0, right: 5.0),
+                                          decoration: BoxDecoration(
+                                            color: switched
+                                                ? const Color(0x7AFFFFFF)
+                                                : const Color(0x7AAFAFAF),
+                                            border: Border.all(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: FittedBox(
+                                            child: InkWell(
+                                              onTap: () {
+                                                isSwitched.value = true;
+                                                callback();
+                                              },
+                                              child: ValueListenableBuilder2(
+                                                valuelistenable1: kEndHour,
+                                                valuelistenable2: kEndMin,
+                                                builder: (context, value1,
+                                                    value2, child) {
+                                                  int hour = (kAM_en.value
+                                                      ? kEndHour.value
+                                                      : kEndHour.value + 12);
+                                                  return Text(
+                                                    hour < 10
+                                                        ? 'à 0$hour h $value2'
+                                                        : 'à $hour h $value2',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: switched
+                                                            ? null
+                                                            : const Color(
+                                                                0xFF000000),
+                                                        fontSize: 30.0),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                         const SizedBox(

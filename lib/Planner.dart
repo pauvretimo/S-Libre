@@ -111,8 +111,8 @@ class _Plan extends State<Plan> {
         ),
         SlidingUpPanel(
           margin: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width / 4.0,
-              right: MediaQuery.of(context).size.width / 4.0),
+              left: MediaQuery.of(context).size.width / 12.0,
+              right: MediaQuery.of(context).size.width / 12.0),
           renderPanelSheet: false,
           controller: _pc,
           isDraggable: false,

@@ -22,8 +22,16 @@ class MyApp extends StatelessWidget {
       scrollBehavior: AppScrollBehavior(),
       title: 'App Salles',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: const Color(0xFF005221),
+        ),
         fontFamily: 'Lato',
+        cardColor: const Color(0xFFF0F0F0),
         colorScheme: const ColorScheme(
           shadow: Color(0xFF404040),
           brightness: Brightness.light,
@@ -42,13 +50,20 @@ class MyApp extends StatelessWidget {
           error: Color(0xFFEE0000),
           onError: Color(0xFFEEEEEE),
           background: Color(0xFFFFFFF0),
-          onBackground: Color(0xFF6DB92D),
+          onBackground: Color(0xFF005221),
           surface: Color(0xFFF0F0F0),
           onSurface: Color(0xFF005221),
         ),
       ),
       darkTheme: ThemeData(
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(),
+            bodyText2: TextStyle(),
+          ).apply(
+            bodyColor: const Color(0xFFFFFFF0),
+          ),
           fontFamily: 'Lato',
+          cardColor: const Color(0xFF042150),
           colorScheme: const ColorScheme(
             shadow: Color(0xFFFFFFF0),
             brightness: Brightness.dark,
@@ -56,7 +71,7 @@ class MyApp extends StatelessWidget {
             onPrimary: Color(0xFFFFFFF0),
             primaryContainer: Color(0xAF037CB5),
             onPrimaryContainer: Color(0xFFFFFFF0),
-            secondary: Color(0xFF423597),
+            secondary: Color(0xFF4B35B9),
             onSecondary: Color(0xFFFFFFF0),
             secondaryContainer: Color(0x5F423597),
             onSecondaryContainer: Color(0xFFFFFFF0),
@@ -92,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
       cours = events;
     });
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: FutureBuilder(
             future: getCalendar(),
             initialData: const [],

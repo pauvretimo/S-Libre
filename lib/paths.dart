@@ -42,9 +42,11 @@ class Paths {
   int yScalev;
   int xScaleh;
   int yScaleh;
+  bool? wip;
 
   Paths(this.name, this.verticalpaths, this.horizontalpaths, this.xScalev,
-      this.yScalev, this.xScaleh, this.yScaleh);
+      this.yScalev, this.xScaleh, this.yScaleh,
+      [this.wip]);
 }
 
 //Création des class path par étage
@@ -69,7 +71,7 @@ Paths ENSIBSVannesRDCpaths = Paths(
 //ENSIBS Vannes Etage 1
 
 Paths ENSIBSVannesE1paths = Paths(
-    "Etage 1",
+    "Premier étage",
     pathslistENSIBSVannesE1v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -86,7 +88,7 @@ Paths ENSIBSVannesE1paths = Paths(
 //ENSIBS Lorient Etage 1
 
 Paths ENSIBSLorientE1paths = Paths(
-    "Etage 1",
+    "Premier étage",
     pathslistENSIBSLorientE1v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -98,10 +100,11 @@ Paths ENSIBSLorientE1paths = Paths(
     1300,
     2500,
     3000,
-    2000);
+    2000,
+    true);
 
 Paths ENSIBSLorientE2paths = Paths(
-    "Etage 2",
+    "Deuxième étage",
     pathslistENSIBSLorientE2v
         .map((e) => (Room(e[0] as String, e[1] as Color, e[2] as String,
             e[3] as String, e[4] as bool)))
@@ -113,7 +116,8 @@ Paths ENSIBSLorientE2paths = Paths(
     1300,
     2500,
     3000,
-    2000);
+    2000,
+    true);
 
 /// La class Bat répertorie un nombre de Paths pour former un batiment
 /// Elle a également un nom [name] pour être affiché

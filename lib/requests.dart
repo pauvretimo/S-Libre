@@ -11,7 +11,7 @@ Future<void> getCalendar(context) async {
   var calendar = '';
   try {
     calendar =
-        await http.read(Uri.parse("http://api.cyberlog.dev/get-calendar"));
+        await http.read(Uri.parse("https://api.cyberlog.dev/get-calendar"));
     saveSettings.save('json', calendar);
   } catch (error) {
     calendar = await saveSettings.readString('json') ?? "";

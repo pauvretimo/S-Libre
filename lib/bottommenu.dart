@@ -25,9 +25,11 @@ class bottomDrawer extends StatefulWidget {
 class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
   final ScrollController sc = ScrollController();
   ValueNotifier<double> pos;
-  ValueNotifier<Bat> bat = ValueNotifier(ENSIBS_Vannes);
-  ValueNotifier<bool> isSwitched = ValueNotifier(false);
+  ValueNotifier<Bat> bat = ValueNotifier(kSelectedBat.value);
   late List<String> days;
+  ScrollController floorController = ScrollController();
+  ValueNotifier<bool> isFloorListScrollableRight = ValueNotifier(false);
+  ValueNotifier<bool> isFloorListScrollableLeft = ValueNotifier(false);
   List<String> daysName = [
     "Monday",
     "Tuesday",
@@ -45,6 +47,41 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
     this.batcallback,
   );
 
+  void scrollIndicator() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (floorController.position.maxScrollExtent > 0) {
+        isFloorListScrollableRight.value = true;
+        isFloorListScrollableLeft.value = false;
+      } else {
+        isFloorListScrollableRight.value = false;
+        isFloorListScrollableLeft.value = false;
+      }
+
+      floorController.addListener(
+        () {
+          if (floorController.position.pixels <
+              floorController.position.maxScrollExtent - 30) {
+            isFloorListScrollableRight.value = true;
+          } else {
+            isFloorListScrollableRight.value = false;
+          }
+          if (floorController.position.pixels >
+              floorController.position.minScrollExtent + 30) {
+            isFloorListScrollableLeft.value = true;
+          } else {
+            isFloorListScrollableLeft.value = false;
+          }
+        },
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    scrollIndicator();
+  }
+
   @override
   Widget build(BuildContext context) {
     final int dayindex = daysName.indexOf(kToday);
@@ -57,6 +94,12 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
     } else {
       days = ["Aujourd'hui", "Demain", "Après-demain"];
     }
+    if ((kTimeNow.weekday == DateTime.saturday ||
+        kTimeNow.weekday == DateTime.sunday ||
+        kSelectedDay.value > 0)) {
+      kIsSelectSwitched.value = true;
+      print('here');
+    }
     return Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -68,7 +111,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                 return ClipPath(
                   key: ValueKey(pos),
                   child: Container(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   clipper: buttonClipper(pos.value),
                 );
@@ -105,26 +148,54 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                     color: Theme.of(context).colorScheme.secondaryContainer,
                     border: Border.all(
                       width: 4.0,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Stack(
                     children: [
                       Positioned(
-                          bottom: 10.0,
-                          left: 10.0,
+                        bottom: 10.0,
+                        left: 10.0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              color: Theme.of(context).colorScheme.onSurface),
                           child: IconButton(
                             onPressed: () {
                               widget.settingsController.open();
                             },
                             icon: Icon(
                               Icons.settings,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
+                              color: Theme.of(context).colorScheme.onSecondary,
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 10.0,
+                        right: 10.0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 40.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              color: Theme.of(context).colorScheme.onSurface),
+                          child: IconButton(
+                            onPressed: () {
+                              kRefreshing.value = true;
+                            },
+                            icon: Icon(
+                              Icons.refresh_rounded,
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
                       Center(
                         child: ListView(
                           shrinkWrap: true,
@@ -170,6 +241,8 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                   },
                                   onSelected: (int index) {
                                     kSelectedDay.value = index;
+                                    bat.value.updateBat();
+                                    kToUpdate.value = !kToUpdate.value;
                                   },
                                 ),
                               ),
@@ -187,24 +260,34 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                     child: RotatedBox(
                                       quarterTurns: -1,
                                       child: Center(
-                                          child: ValueListenableBuilder(
-                                        valueListenable: isSwitched,
-                                        builder: (BuildContext context,
-                                            bool value, Widget? child) {
-                                          return Switch(
-                                            value: isSwitched.value,
-                                            onChanged: (val) {
-                                              isSwitched.value = val;
-                                            },
-                                          );
-                                        },
-                                      )),
+                                        child: ValueListenableBuilder(
+                                          valueListenable: kIsSelectSwitched,
+                                          builder: (BuildContext context,
+                                              bool value, Widget? child) {
+                                            return Switch(
+                                              value: value,
+                                              onChanged: (val) {
+                                                if (!(kTimeNow.weekday ==
+                                                        DateTime.saturday ||
+                                                    kTimeNow.weekday ==
+                                                        DateTime.sunday ||
+                                                    kSelectedDay.value > 0)) {
+                                                  kIsSelectSwitched.value = val;
+                                                  bat.value.updateBat();
+                                                  kToUpdate.value =
+                                                      !kToUpdate.value;
+                                                }
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Expanded(
                                     flex: 9,
                                     child: ValueListenableBuilder(
-                                      valueListenable: isSwitched,
+                                      valueListenable: kIsSelectSwitched,
                                       builder: (BuildContext context,
                                           bool switched, Widget? child) {
                                         return ListView(
@@ -230,24 +313,32 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                               child: FittedBox(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    isSwitched.value = true;
+                                                    kIsSelectSwitched.value =
+                                                        true;
                                                     callback();
                                                   },
                                                   child:
-                                                      ValueListenableBuilder2(
+                                                      ValueListenableBuilder3(
                                                     valuelistenable1:
                                                         kStartHour,
                                                     valuelistenable2: kStartMin,
-                                                    builder: (context, value1,
-                                                        value2, child) {
+                                                    valuelistenable3: kAM_st,
+                                                    builder: (context,
+                                                        int value1,
+                                                        int value2,
+                                                        bool value3,
+                                                        child) {
                                                       int hour = (kAM_st.value
-                                                          ? kStartHour.value
-                                                          : kStartHour.value +
-                                                              12);
+                                                          ? value1
+                                                          : value1 + 12);
                                                       return Text(
                                                         hour < 10
-                                                            ? 'De 0$hour h $value2'
-                                                            : 'De $hour h $value2',
+                                                            ? (value2 < 10
+                                                                ? 'à 0$hour h 0$value2'
+                                                                : 'à 0$hour h $value2')
+                                                            : (value2 < 10
+                                                                ? 'à $hour h 0$value2'
+                                                                : 'à $hour h $value2'),
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -286,23 +377,31 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                               child: FittedBox(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    isSwitched.value = true;
+                                                    kIsSelectSwitched.value =
+                                                        true;
                                                     callback();
                                                   },
                                                   child:
-                                                      ValueListenableBuilder2(
+                                                      ValueListenableBuilder3(
                                                     valuelistenable1: kEndHour,
                                                     valuelistenable2: kEndMin,
-                                                    builder: (context, value1,
-                                                        value2, child) {
+                                                    valuelistenable3: kAM_en,
+                                                    builder: (context,
+                                                        int value1,
+                                                        int value2,
+                                                        bool value3,
+                                                        child) {
                                                       int hour = (kAM_en.value
-                                                          ? kEndHour.value
-                                                          : kEndHour.value +
-                                                              12);
+                                                          ? value1
+                                                          : value1 + 12);
                                                       return Text(
                                                         hour < 10
-                                                            ? 'à 0$hour h $value2'
-                                                            : 'à $hour h $value2',
+                                                            ? (value2 < 10
+                                                                ? 'à 0$hour h 0$value2'
+                                                                : 'à 0$hour h $value2')
+                                                            : (value2 < 10
+                                                                ? 'à $hour h 0$value2'
+                                                                : 'à $hour h $value2'),
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -332,82 +431,127 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                               height: 60.0,
                               alignment: Alignment.center,
                               color: Colors.transparent,
-                              child: ValueListenableBuilder(
-                                valueListenable: bat,
-                                builder: (context, value, child) {
-                                  return Center(
-                                    child: ListView.separated(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.all(8),
-                                      itemCount: 2,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        List<Paths> entries = bat.value.bat;
-                                        return ValueListenableBuilder(
-                                          valueListenable: kSelectedFloor,
-                                          builder: (context, value, child) {
-                                            return Container(
-                                              height: 50,
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              decoration: BoxDecoration(
-                                                  boxShadow: index ==
-                                                          kSelectedFloor.value
-                                                      ? [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0.8, 1.0),
-                                                              blurRadius: 2,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .shadow)
-                                                        ]
-                                                      : null,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
-                                                  border: Border.all(
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  ValueListenableBuilder(
+                                    valueListenable: bat,
+                                    builder: (context, value, child) {
+                                      return Center(
+                                        child: ListView.separated(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          controller: floorController,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          padding: const EdgeInsets.all(8),
+                                          itemCount: bat.value.nb_floors,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            List<Paths> entries = bat.value.bat;
+                                            return ValueListenableBuilder(
+                                              valueListenable: kSelectedFloor,
+                                              builder: (context, value, child) {
+                                                return Container(
+                                                  height: 50,
+                                                  padding:
+                                                      const EdgeInsets.all(5.0),
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: index ==
+                                                              kSelectedFloor
+                                                                  .value
+                                                          ? [
+                                                              BoxShadow(
+                                                                  offset:
+                                                                      const Offset(
+                                                                          0.8,
+                                                                          1.0),
+                                                                  blurRadius: 2,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .shadow)
+                                                            ]
+                                                          : null,
                                                       color: Theme.of(context)
                                                           .colorScheme
-                                                          .tertiary,
-                                                      width: 3),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(10))),
-                                              child: Center(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    batcallback(index);
-                                                    kSelectedFloor.value =
-                                                        index;
-                                                  },
-                                                  child: Text(
-                                                    entries[index].name,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onTertiary),
+                                                          .secondary,
+                                                      border: Border.all(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .tertiary,
+                                                          width: 3),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  10))),
+                                                  child: Center(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        batcallback(index);
+                                                        kSelectedFloor.value =
+                                                            index;
+                                                      },
+                                                      child: Text(
+                                                        entries[index].name,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onTertiary),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
+                                                );
+                                              },
                                             );
                                           },
-                                        );
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                      int index) =>
+                                                  const VerticalDivider(
+                                            width: 10.0,
+                                            thickness: 2.0,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    left: -14,
+                                    child: ValueListenableBuilder(
+                                      valueListenable:
+                                          isFloorListScrollableLeft,
+                                      builder: (context, bool value, child) {
+                                        return value
+                                            ? const Icon(
+                                                Icons.arrow_left_rounded,
+                                                size: 36.0,
+                                              )
+                                            : Container();
                                       },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) =>
-                                              const VerticalDivider(
-                                        width: 10.0,
-                                        thickness: 2.0,
-                                      ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  Positioned(
+                                    right: -14,
+                                    child: ValueListenableBuilder(
+                                      valueListenable:
+                                          isFloorListScrollableRight,
+                                      builder: (context, bool value, child) {
+                                        return value
+                                            ? const Icon(
+                                                Icons.arrow_right_rounded,
+                                                size: 36.0,
+                                              )
+                                            : Container();
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Container(
@@ -430,7 +574,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                           padding: const EdgeInsets.all(5.0),
                                           decoration: BoxDecoration(
                                               boxShadow: bat.value ==
-                                                      listbat[index]
+                                                      listBat[index]
                                                   ? [
                                                       BoxShadow(
                                                           offset: const Offset(
@@ -456,12 +600,13 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                           child: Center(
                                             child: InkWell(
                                               onTap: () {
-                                                bat.value = listbat[index];
+                                                bat.value = listBat[index];
                                                 kSelectedFloor.value = 0;
                                                 batcallback(0, index);
+                                                scrollIndicator();
                                               },
                                               child: Text(
-                                                listbat[index].name,
+                                                listBat[index].name,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Theme.of(context)

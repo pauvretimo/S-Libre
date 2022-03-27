@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:learn/paths.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:learn/SaveData.dart';
 
 // Valeurs des heures et minutes sélectionnees
 ValueNotifier<int> kStartHour = ValueNotifier(10);
@@ -21,8 +21,16 @@ ValueNotifier<Bat> kSelectedBat = ValueNotifier(ENSIBS_Vannes);
 // L'etage selectionne 0 -> n
 ValueNotifier<int> kSelectedFloor = ValueNotifier(0);
 
-// Le jour actuel
+// parametres d'affichage
+ValueNotifier<bool> kAfficheLesNoms = ValueNotifier(false);
+ValueNotifier<bool> kAfficheLesOmbres = ValueNotifier(true);
+
+// Le jour actuel et l'heure actuelle
 String kToday = DateFormat.EEEE().format(DateTime.now());
+DateTime kTimeNow = DateTime.now();
+
+// temps actuel ou selection des heures
+ValueNotifier<bool> kIsSelectSwitched = ValueNotifier(false);
 
 // couleurs des salles:
 const Color kSalleOccupee = Color(0xFFD10819);
@@ -35,10 +43,19 @@ const Color kCouloirs = Color(0xFF64C8EF);
 ValueNotifier<ThemeMode> kThemedelapp = ValueNotifier(ThemeMode.system);
 
 // liste des batiments de l'app
-List<Bat> listbat = [ENSIBS_Vannes, ENSIBS_Lorient];
+List<Bat> listBat = [ENSIBS_Vannes, ENSIBS_Lorient];
 
 // refresh the app
-ValueNotifier<bool> kRefreshing = ValueNotifier(false);
+ValueNotifier<bool> kRefreshing = ValueNotifier(true);
+
+// licence
+String kLicence = '';
+
+// Test
+Offset kTesting = const Offset(0, 0);
+
+// Updater
+ValueNotifier<bool> kToUpdate = ValueNotifier(true);
 
 // classes permettants de rebuild en fonction de plusieurs ValueNotifier
 class ValueListenableBuilder2<A, B> extends StatelessWidget {
@@ -103,4 +120,32 @@ class ValueListenableBuilder3<A, B, C> extends StatelessWidget {
           );
         },
       );
+}
+
+// fonction pour recuperer les derniers batiments et etage affiche
+Future<void> updateValues() async {
+  kSelectedFloor.value = await saveSettings.readInt('floor') ?? 0;
+  String? batname = await saveSettings.readString('bat') ?? 'ENSIBSVannes';
+  kSelectedBat.value = listBat.firstWhere((item) => item.name == batname,
+      orElse: () => ENSIBS_Vannes);
+  kAfficheLesNoms.value = await saveSettings.readbool('istxt') ?? false;
+  kAfficheLesOmbres.value = await saveSettings.readbool('isshadow') ?? true;
+  // kRefreshing.value = true;
+}
+
+// recuperation du theme enregistre
+Future<void> updateTheme() async {
+  String? theme = await saveSettings.readString(('theme'));
+  if (theme == 'light') {
+    kThemedelapp.value = ThemeMode.light;
+  } else if (theme == 'dark') {
+    kThemedelapp.value = ThemeMode.dark;
+  } else {
+    kThemedelapp.value = ThemeMode.system;
+  }
+}
+
+// fonction pour recuperer la licence
+Future<String> loadAsset(BuildContext context) async {
+  return await DefaultAssetBundle.of(context).loadString('lib/licence.txt');
 }

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:svg_path_parser/svg_path_parser.dart';
 
 class MyClipper extends CustomClipper<Path> {
-  final String str;
+  final Path str;
   final Orientation orientation;
   final int xS;
   final int yS;
-  MyClipper(this.str, this.orientation, this.xS, this.yS);
+  MyClipper(
+    this.str,
+    this.orientation,
+    this.xS,
+    this.yS,
+  );
 
   @override
   Path getClip(Size size) {
@@ -15,14 +19,16 @@ class MyClipper extends CustomClipper<Path> {
     final Matrix4 matrix4 = Matrix4.identity();
 
     if (orientation == Orientation.portrait) {
-      var offset = const Offset(40, 15);
+      var offset =
+          Offset(40.0 * (size.width / 600.0), 15.0 * (size.height / 1000.0));
       matrix4.scale(xScale, yScale);
-      final path = parseSvgPath(str).transform(matrix4.storage).shift(offset);
+      final path = str.transform(matrix4.storage).shift(offset);
       return path;
     } else {
-      var offset = const Offset(30, 50);
+      var offset =
+          Offset(30.0 * (size.width / 1000.0), 50.0 * (size.height / 600.0));
       matrix4.scale(xScale, yScale);
-      final path = parseSvgPath(str).transform(matrix4.storage).shift(offset);
+      final path = str.transform(matrix4.storage).shift(offset);
       return path;
     }
   }

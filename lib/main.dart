@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:learn/Globals.dart';
 import 'package:learn/Planner.dart';
 import 'package:learn/SaveData.dart';
-import 'package:learn/paths.dart';
 import 'package:learn/requests.dart';
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -19,20 +19,11 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // recuperation du theme enregistre
-  Future<void> updateTheme() async {
-    String? theme = await saveSettings.readString(('theme'));
-    if (theme == 'light') {
-      kThemedelapp.value = ThemeMode.light;
-    } else if (theme == 'dark') {
-      kThemedelapp.value = ThemeMode.dark;
-    } else {
-      kThemedelapp.value = ThemeMode.system;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    // recuperation dernières donnees
+    updateTheme();
+    kToday = DateFormat.EEEE().format(DateTime.now());
     return ValueListenableBuilder(
       valueListenable: kThemedelapp,
       builder: (BuildContext context, ThemeMode value, Widget? child) {
@@ -48,6 +39,7 @@ class MyApp extends StatelessWidget {
             ).apply(
               bodyColor: const Color(0xFF005221),
             ),
+            accentColor: const Color(0xFF388C1D),
             fontFamily: 'Lato',
             cardColor: const Color(0xFFF0F0F0),
             colorScheme: const ColorScheme(
@@ -58,8 +50,8 @@ class MyApp extends StatelessWidget {
               primaryContainer: Color(0xAF005221),
               onPrimaryContainer: Color(0xFFFFFFF0),
               secondary: Color(0xFF388C1D),
-              onSecondary: Color(0xFF005221),
-              secondaryContainer: Color(0x5F388C1D),
+              onSecondary: Color(0xFF6DB92D),
+              secondaryContainer: Color(0x5F48CC3D),
               onSecondaryContainer: Color(0xFF6DB92D),
               tertiary: Color(0xFF005221),
               onTertiary: Color(0xFFFFFFF0),
@@ -67,13 +59,14 @@ class MyApp extends StatelessWidget {
               onTertiaryContainer: Color(0xFF003211),
               error: Color(0xFFEE0000),
               onError: Color(0xFFEEEEEE),
-              background: Color(0xFFFFFFF0),
+              background: Color(0xFFFFFFF6),
               onBackground: Color(0xFF005221),
-              surface: Color(0xFFF0F0F0),
+              surface: Color(0xFFF6F7F0),
               onSurface: Color(0xFF005221),
             ),
           ),
           darkTheme: ThemeData(
+              accentColor: const Color(0xFF4B35B9),
               textTheme: const TextTheme(
                 bodyText1: TextStyle(),
                 bodyText2: TextStyle(),
@@ -91,7 +84,7 @@ class MyApp extends StatelessWidget {
                 onPrimaryContainer: Color(0xFFFFFFF0),
                 secondary: Color(0xFF4B35B9),
                 onSecondary: Color(0xFFFFFFF0),
-                secondaryContainer: Color(0x5F423597),
+                secondaryContainer: Color(0x5F222597),
                 onSecondaryContainer: Color(0xFFFFFFF0),
                 tertiary: Color(0xFF191970),
                 onTertiary: Color(0xFFFFFFF0),
@@ -120,24 +113,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // fonction pour recuperer les derniers batiments et etage affiche
-  Future<void> updateValues() async {
-    kSelectedFloor.value = await saveSettings.readInt('floor') ?? 0;
-    String? batname = await saveSettings.readString('bat');
-    kSelectedBat.value = listBat.firstWhere((item) => item.name == batname,
-        orElse: () => ENSIBS_Vannes);
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<EventCalendar> cours = [];
-    getCalendar().then((events) {
-      cours = events;
-    });
-
-    // recuperation dernières donnees
-    updateValues();
-
     // enregistrement lors dest changements de paramètres
     kSelectedBat.addListener(() {
       saveSettings.save('bat', kSelectedBat.value.name);
@@ -157,20 +134,32 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, bool value, Widget? child) {
           if (value) {
             return FutureBuilder(
-              future: getCalendar(),
+              future: getCalendar(context),
               initialData: const [],
               builder: (builder, snapshot) {
-                while (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return Container();
               },
             );
           } else {
-            return Center(
-              child: Plan(
-                events: cours,
-              ),
+            return FutureBuilder(
+              future: updateValues().then((value) => null),
+              initialData: const [],
+              builder: (builder, snapshot) {
+                return FutureBuilder<String>(
+                  future: loadAsset(context),
+                  builder: (builder, snapshot) {
+                    if (snapshot.hasData) {
+                      kLicence = snapshot.data!;
+                    }
+                    return const Center(
+                      child: Plan(),
+                    );
+                  },
+                );
+              },
             );
           }
         },

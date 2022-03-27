@@ -244,8 +244,8 @@ class _TimePicker extends State<TimePicker> {
                                                 : [
                                                     BoxShadow(
                                                         offset: const Offset(
-                                                            0.8, 1.0),
-                                                        blurRadius: 2,
+                                                            1.8, 1.4),
+                                                        blurRadius: 2.5,
                                                         color: Theme.of(context)
                                                             .colorScheme
                                                             .shadow)
@@ -394,8 +394,8 @@ class _TimePicker extends State<TimePicker> {
                                                 ? [
                                                     BoxShadow(
                                                         offset: const Offset(
-                                                            0.8, 1.0),
-                                                        blurRadius: 2,
+                                                            1.8, 1.4),
+                                                        blurRadius: 2.5,
                                                         color: Theme.of(context)
                                                             .colorScheme
                                                             .shadow)
@@ -642,7 +642,22 @@ class _TimePicker extends State<TimePicker> {
                           Expanded(
                             flex: 5,
                             child: InkWell(
-                              onTap: () => widget.controller.close(),
+                              onTap: () {
+                                kSelectedBat.value.updateBat();
+                                kToUpdate.value = !kToUpdate.value;
+                                if ((((kStartHour.value >= kEndHour.value &&
+                                                kStartMin.value >
+                                                    kEndMin.value) ||
+                                            kStartHour.value >
+                                                kEndHour.value) &&
+                                        kAM_st.value == kAM_en.value) ||
+                                    (!kAM_st.value && kAM_en.value)) {
+                                  kEndHour.value = kStartHour.value;
+                                  kEndMin.value = kStartMin.value;
+                                  kAM_en.value = kAM_st.value;
+                                }
+                                widget.controller.close();
+                              },
                               customBorder: Border.all(
                                 color:
                                     Theme.of(context).colorScheme.onBackground,

@@ -1,59 +1,50 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:learn/Globals.dart';
+import 'package:learn/paths.dart';
+import 'package:learn/SaveData.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/material.dart';
 
-Future<List<EventCalendar>> getCalendar() async {
+Future<void> getCalendar(context) async {
   // Get calendar file
-  var calendarStrings =
-      await http.read(Uri.parse("http://api.cyberlog.dev/get-calendar"));
-
+  var calendar = '';
+  try {
+    calendar =
+        await http.read(Uri.parse("http://api.cyberlog.dev/get-calendar"));
+    saveSettings.save('json', calendar);
+  } catch (error) {
+    calendar = await saveSettings.readString('json') ?? "";
+    Alert(
+            style: const AlertStyle(
+                overlayColor: Color(0x10A10000),
+                backgroundColor: Color(0x5FA10000),
+                titleStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: "Dongle",
+                  fontSize: 80,
+                ),
+                descStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Dongle",
+                  fontSize: 40,
+                )),
+            context: context,
+            title: 'Erreur',
+            desc:
+                'Nous ne sommes pas parvenus à télécharger l\'emploi du temps, nous utiliserons donc le dernier enregistré')
+        .show();
+  }
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // if (calendarStrings != null) {
   //   prefs.setString('calendar', calendarStrings);
   // } else {
   //   calendarStrings = prefs.getString('calendar')!;
   // }
+  Map<String, dynamic> calendarMap = jsonDecode(calendar);
+  ENSIBS_Vannes.parser(calendarMap);
 
-  // split lines in a list
-  LineSplitter ls = const LineSplitter();
-  List<String> lines = ls.convert(calendarStrings);
-  List<EventCalendar> events = [];
-
-  // for each event we create an event object and add to a list
-  for (var i = 0; i < lines.length; i++) {
-    if (lines[i] == "BEGIN:VEVENT") {
-      var event = EventCalendar();
-      i++;
-      while (lines[i] != "END:VEVENT") {
-        if (lines[i].startsWith("DTSTART:")) {
-          event.start = lines[i].substring(8);
-        } else if (lines[i].startsWith("DTEND:")) {
-          event.end = lines[i].substring(6);
-        } else if (lines[i].startsWith("SUMMARY:")) {
-          event.summary = lines[i].substring(8);
-        } else if (lines[i].startsWith("LOCATION:")) {
-          event.location = lines[i].substring(9);
-        }
-        i++;
-      }
-      events.add(event);
-    }
-  }
   kRefreshing.value = false;
-  return events;
-}
-
-class EventCalendar {
-  String start;
-  String end;
-  String summary;
-  String location;
-
-  EventCalendar(
-      {this.start = "", this.end = "", this.summary = "", this.location = ""});
-
-  @override
-  String toString() {
-    return "start: $start\nend: $end\nsummary: $summary\nlocation: $location\n";
-  }
 }

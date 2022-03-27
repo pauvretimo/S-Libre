@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:learn/Globals.dart';
-import 'package:learn/paths.dart';
-import 'package:learn/requests.dart';
 import 'package:learn/Batiments.dart';
 import 'package:learn/bottommenu.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:learn/Datetimepicker.dart';
 import 'package:learn/SettingsMenu.dart';
+import 'dart:async';
 
 class Plan extends StatefulWidget {
-  final List<EventCalendar> events;
-  const Plan({Key? key, required this.events}) : super(key: key);
+  const Plan({Key? key}) : super(key: key);
 
   @override
   State<Plan> createState() => _Plan();
@@ -27,18 +25,18 @@ class _Plan extends State<Plan> {
 
       batController.addListener(
         () {
-          kSelectedBat.value = listbat[batController.page!.toInt()];
+          kSelectedBat.value = listBat[batController.page!.toInt()];
         },
       );
     });
   }
 
   PageController pageController = PageController(
-    initialPage: 0,
+    initialPage: kSelectedFloor.value,
     keepPage: true,
   );
   PageController batController = PageController(
-    initialPage: 0,
+    initialPage: listBat.indexOf(kSelectedBat.value),
     keepPage: true,
   );
 
@@ -64,6 +62,9 @@ class _Plan extends State<Plan> {
 
   @override
   Widget build(BuildContext context) {
+    Timer refresh = Timer.periodic(Duration(seconds: 10), (timer) {
+      kSelectedBat.value.updateBat();
+    });
     return Stack(
       children: [
         SlidingUpPanel(
@@ -93,10 +94,9 @@ class _Plan extends State<Plan> {
                       physics: const NeverScrollableScrollPhysics(),
                       controller: batController,
                       children: List.generate(
-                        listbat.length,
+                        listBat.length,
                         (index) => Batiment(
-                            events: widget.events,
-                            batiment: listbat[index],
+                            batiment: listBat[index],
                             pagecontroller: pageController),
                       ),
                     )

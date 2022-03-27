@@ -69,9 +69,9 @@ class _Plan extends State<Plan> {
       children: [
         SlidingUpPanel(
           margin: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width / 6.0,
-            right: MediaQuery.of(context).size.width / 6.0,
-            top: MediaQuery.of(context).size.height / 6.0,
+            left: MediaQuery.of(context).size.width / 10.0,
+            right: MediaQuery.of(context).size.width / 10.0,
+            top: MediaQuery.of(context).size.height / 10.0,
           ),
           onPanelSlide: (e) {
             pos.value = e;

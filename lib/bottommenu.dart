@@ -334,11 +334,11 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                                       return Text(
                                                         hour < 10
                                                             ? (value2 < 10
-                                                                ? 'à 0$hour h 0$value2'
-                                                                : 'à 0$hour h $value2')
+                                                                ? 'de 0$hour h 0$value2'
+                                                                : 'de 0$hour h $value2')
                                                             : (value2 < 10
-                                                                ? 'à $hour h 0$value2'
-                                                                : 'à $hour h $value2'),
+                                                                ? 'de $hour h 0$value2'
+                                                                : 'de $hour h $value2'),
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

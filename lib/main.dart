@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, ThemeMode value, Widget? child) {
         return MaterialApp(
           scrollBehavior: AppScrollBehavior(),
-          title: 'App Salles',
+          title: 'S-Libre',
           debugShowCheckedModeBanner: false,
           themeMode: kThemedelapp.value,
           theme: ThemeData(

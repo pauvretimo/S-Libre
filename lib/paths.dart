@@ -56,6 +56,7 @@ class Room {
             .isBefore(kTimeNow.add(const Duration(hours: 1)))) {
           color = kSalleBientotOccupee;
         }
+        i++;
       }
     }
   }

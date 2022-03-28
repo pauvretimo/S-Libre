@@ -174,7 +174,7 @@ class SettingMenu extends StatelessWidget {
                         onTap: () => showLicensePage(
                           context: context,
                           applicationName: "S-Libre",
-                          applicationVersion: "1.0.0",
+                          applicationVersion: "1.0.1",
                           applicationLegalese: kLicence,
                         ),
                         customBorder: Border.all(

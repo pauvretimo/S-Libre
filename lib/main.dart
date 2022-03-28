@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       valueListenable: kThemedelapp,
       builder: (BuildContext context, ThemeMode value, Widget? child) {
         return MaterialApp(
+          builder: (context, child) => SafeArea(child: child!),
           scrollBehavior: AppScrollBehavior(),
           title: 'S-Libre',
           debugShowCheckedModeBanner: false,

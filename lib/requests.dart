@@ -45,6 +45,7 @@ Future<void> getCalendar(context) async {
   // }
   Map<String, dynamic> calendarMap = jsonDecode(calendar);
   ENSIBS_Vannes.parser(calendarMap);
+  kSelectedBat.value.updateBat();
 
   kRefreshing.value = false;
 }

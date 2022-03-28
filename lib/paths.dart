@@ -50,9 +50,9 @@ class Room {
       color = kSalleLibre;
       int i = 0;
       while (i < candidates.length && color == kSalleLibre) {
-        if (startingHours[i].isBefore(kTimeNow)) {
+        if (startingHours[candidates[i]].isBefore(kTimeNow)) {
           color = kSalleOccupee;
-        } else if (startingHours[i]
+        } else if (startingHours[candidates[i]]
             .isBefore(kTimeNow.add(const Duration(hours: 1)))) {
           color = kSalleBientotOccupee;
         }
@@ -69,7 +69,6 @@ class Room {
           candidates.add(i);
         }
       }
-      if (name == 'D003') {}
       color = kSalleLibre;
       int i = 0;
       while (i < candidates.length && color == kSalleLibre) {

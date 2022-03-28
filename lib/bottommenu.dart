@@ -243,6 +243,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                                     kSelectedDay.value = index;
                                     bat.value.updateBat();
                                     kToUpdate.value = !kToUpdate.value;
+                                    kIsSelectSwitched.value = true;
                                   },
                                 ),
                               ),

@@ -67,6 +67,31 @@ class _Plan extends State<Plan> {
     });
     return Stack(
       children: [
+        Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  // Création des pages de batiments
+                  //    Chaque page est composé d'un widget Floor qui permet de gérer l'ombre, et de créer un
+                  //    widget clipshadowpathclicker pour un étage donné pour un batiment donné
+
+                  PageView(
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: batController,
+                    children: List.generate(
+                      listBat.length,
+                      (index) => Batiment(
+                          batiment: listBat[index],
+                          pagecontroller: pageController),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
         SlidingUpPanel(
           margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width / 10.0,
@@ -80,31 +105,6 @@ class _Plan extends State<Plan> {
           minHeight: 50.0,
           maxHeight: 4 * MediaQuery.of(context).size.height / 5,
           panel: bottomDrawer(pos, scrollcallback, batCallback, _sc),
-          body: (Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    // Création des pages de batiments
-                    //    Chaque page est composé d'un widget Floor qui permet de gérer l'ombre, et de créer un
-                    //    widget clipshadowpathclicker pour un étage donné pour un batiment donné
-
-                    PageView(
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: batController,
-                      children: List.generate(
-                        listBat.length,
-                        (index) => Batiment(
-                            batiment: listBat[index],
-                            pagecontroller: pageController),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          )),
         ),
         SlidingUpPanel(
           margin: EdgeInsets.only(

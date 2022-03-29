@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:learn/Globals.dart';
 
-class TimePicker extends StatefulWidget {
+class TimePicker extends StatelessWidget {
   final PanelController controller;
-  const TimePicker({Key? key, required this.controller}) : super(key: key);
+  TimePicker({Key? key, required this.controller}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _TimePicker();
-}
-
-class _TimePicker extends State<TimePicker> {
   ValueNotifier<bool> startSelected = ValueNotifier(true);
   int lastHourValue = 10;
 
@@ -656,7 +651,7 @@ class _TimePicker extends State<TimePicker> {
                                   kEndMin.value = kStartMin.value;
                                   kAM_en.value = kAM_st.value;
                                 }
-                                widget.controller.close();
+                                controller.close();
                               },
                               customBorder: Border.all(
                                 color:

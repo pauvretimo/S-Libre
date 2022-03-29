@@ -49,12 +49,15 @@ class Room {
       }
       color = kSalleLibre;
       int i = 0;
-      while (i < candidates.length && color == kSalleLibre) {
+      while (i < candidates.length &&
+          (color == kSalleLibre || color == kSalleBientotOccupee)) {
         if (startingHours[candidates[i]].isBefore(kTimeNow)) {
           color = kSalleOccupee;
         } else if (startingHours[candidates[i]]
             .isBefore(kTimeNow.add(const Duration(hours: 1)))) {
-          color = kSalleBientotOccupee;
+          if (color != kSalleOccupee) {
+            color = kSalleBientotOccupee;
+          }
         }
         i++;
       }

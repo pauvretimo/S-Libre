@@ -4,22 +4,16 @@ import 'package:learn/popup.dart';
 import 'package:learn/paths.dart';
 
 @immutable
-class ClipShadowedPathclicker extends StatefulWidget {
+class ClipShadowedPathclicker extends StatelessWidget {
   final Paths paths;
 
 // Salles avec les ombres mais sans les textes
-  ClipShadowedPathclicker({
+  const ClipShadowedPathclicker({
     required this.paths,
   });
-  @override
-  State<ClipShadowedPathclicker> createState() => _ClipShadowedPathclicker();
-}
 
-class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
-  _ClipShadowedPathclicker();
   @override
   Widget build(BuildContext context) {
-    Paths paths = widget.paths;
     // on gère l'orientation du plan
 
     return OrientationBuilder(
@@ -145,22 +139,16 @@ class _ClipShadowedPathclicker extends State<ClipShadowedPathclicker> {
 
 // salle sans les ombres ni les textes
 @immutable
-class ClipPathclicker extends StatefulWidget {
+class ClipPathclicker extends StatelessWidget {
   final Paths paths;
 
-  ClipPathclicker({
+  const ClipPathclicker({
     required this.paths,
   });
-  @override
-  State<ClipPathclicker> createState() => _ClipPathclicker();
-}
 
-class _ClipPathclicker extends State<ClipPathclicker> {
-  _ClipPathclicker();
   @override
   Widget build(BuildContext context) {
     Color shadowColor = Theme.of(context).colorScheme.shadow;
-    Paths paths = widget.paths;
     // on gère l'orientation du plan
 
     return OrientationBuilder(
@@ -243,23 +231,16 @@ class _ClipPathclicker extends State<ClipPathclicker> {
 }
 
 @immutable
-class ClipShadowedPathclickerTxt extends StatefulWidget {
+class ClipShadowedPathclickerTxt extends StatelessWidget {
   final Paths paths;
 
 // Salles avec les ombres et avec les textes
-  ClipShadowedPathclickerTxt({
+  const ClipShadowedPathclickerTxt({
     required this.paths,
   });
-  @override
-  State<ClipShadowedPathclickerTxt> createState() =>
-      _ClipShadowedPathclickerTxt();
-}
 
-class _ClipShadowedPathclickerTxt extends State<ClipShadowedPathclickerTxt> {
-  _ClipShadowedPathclickerTxt();
   @override
   Widget build(BuildContext context) {
-    Paths paths = widget.paths;
     // on gère l'orientation du plan
 
     return OrientationBuilder(
@@ -467,22 +448,15 @@ class _ClipShadowedPathclickerTxt extends State<ClipShadowedPathclickerTxt> {
 
 // salle sans les ombres mais avec les textes
 @immutable
-class ClipPathclickerTxt extends StatefulWidget {
+class ClipPathclickerTxt extends StatelessWidget {
   final Paths paths;
 
-  ClipPathclickerTxt({
+  const ClipPathclickerTxt({
     required this.paths,
   });
-  @override
-  State<ClipPathclickerTxt> createState() => _ClipPathclickerTxt();
-}
 
-class _ClipPathclickerTxt extends State<ClipPathclickerTxt> {
-  _ClipPathclickerTxt();
   @override
   Widget build(BuildContext context) {
-    Color shadowColor = Theme.of(context).colorScheme.shadow;
-    Paths paths = widget.paths;
     // on gère l'orientation du plan
 
     return OrientationBuilder(

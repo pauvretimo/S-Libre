@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (snapshot.hasData) {
                       kLicence = snapshot.data!;
                     }
-                    return const Center(
+                    return Center(
                       child: Plan(),
                     );
                   },

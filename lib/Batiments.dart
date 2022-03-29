@@ -3,7 +3,7 @@ import 'package:learn/Globals.dart';
 import 'package:learn/Shadowz.dart';
 import 'package:learn/paths.dart';
 
-class Batiment extends StatefulWidget {
+class Batiment extends StatelessWidget {
   final Bat batiment;
   final PageController pagecontroller;
   const Batiment({
@@ -13,15 +13,7 @@ class Batiment extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Batiment> createState() => _Batiment();
-}
-
-class _Batiment extends State<Batiment> {
-  @override
   Widget build(BuildContext context) {
-    Bat batiment = widget.batiment;
-    batiment.updateBat();
-    PageController pagecontroller = widget.pagecontroller;
     return ValueListenableBuilder3(
       valuelistenable1: kAfficheLesNoms,
       valuelistenable2: kAfficheLesOmbres,

@@ -3,7 +3,7 @@ import 'package:learn/paths.dart';
 import 'package:learn/Globals.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class bottomDrawer extends StatefulWidget {
+class bottomDrawer extends StatelessWidget {
   ValueNotifier<double> pos;
   Function callback;
   Function batcallback;
@@ -14,17 +14,8 @@ class bottomDrawer extends StatefulWidget {
     this.batcallback,
     this.settingsController,
   );
-  @override
-  State<StatefulWidget> createState() => _bottomDrawer(
-        pos,
-        callback,
-        batcallback,
-      );
-}
 
-class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
   final ScrollController sc = ScrollController();
-  ValueNotifier<double> pos;
   ValueNotifier<Bat> bat = ValueNotifier(kSelectedBat.value);
   late List<String> days;
   ScrollController floorController = ScrollController();
@@ -39,14 +30,6 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
     "Saturday",
     "Sunday"
   ];
-  Function callback;
-  Function batcallback;
-  _bottomDrawer(
-    this.pos,
-    this.callback,
-    this.batcallback,
-  );
-
   void scrollIndicator() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (floorController.position.maxScrollExtent > 0) {
@@ -77,13 +60,8 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
   }
 
   @override
-  void initState() {
-    super.initState();
-    scrollIndicator();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    scrollIndicator();
     final int dayindex = daysName.indexOf(kToday);
     if (dayindex == 3) {
       days = ["Aujourd'hui", "Demain", "Lundi"];
@@ -166,7 +144,7 @@ class _bottomDrawer extends State<bottomDrawer> with TickerProviderStateMixin {
                               color: Theme.of(context).colorScheme.onSurface),
                           child: IconButton(
                             onPressed: () {
-                              widget.settingsController.open();
+                              settingsController.open();
                             },
                             icon: Icon(
                               Icons.settings,
